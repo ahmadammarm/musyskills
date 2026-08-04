@@ -2,7 +2,7 @@
 
 This document is the authoritative reference for every skill in the Musyskills repository. It describes the purpose, trigger conditions, pre-flight checks, step-by-step workflow, enforcement rules, edge case handling, and output format for each skill directory. AI agents that load this file should treat its contents as binding instructions for how each skill must behave.
 
-For installation instructions and a general overview of the project, see the `README.md` file.
+For installation instructions and a general overview of the project, see the `README.md` file in the repository root.
 
 ---
 
