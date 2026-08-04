@@ -10,8 +10,8 @@ For installation instructions and a general overview of the project, see the `RE
 
 ### 1. apply-review-feedback
 
-**Directory**: `apply-review-feedback/`
-**Instruction file**: `apply-review-feedback/SKILL.md`
+**Directory**: `skills/apply-review-feedback/`
+**Instruction file**: `skills/apply-review-feedback/SKILL.md`
 
 **Purpose**
 
@@ -57,8 +57,8 @@ A checklist containing for each comment: the original reviewer text, the file ch
 
 ### 2. code-changes-review
 
-**Directory**: `code-changes-review/`
-**Instruction file**: `code-changes-review/SKILL.md`
+**Directory**: `skills/code-changes-review/`
+**Instruction file**: `skills/code-changes-review/SKILL.md`
 
 **Purpose**
 
@@ -103,8 +103,8 @@ A markdown file with four sections: Summary (files reviewed, total findings per 
 
 ### 3. explain-changes
 
-**Directory**: `explain-changes/`
-**Instruction file**: `explain-changes/SKILL.md`
+**Directory**: `skills/explain-changes/`
+**Instruction file**: `skills/explain-changes/SKILL.md`
 
 **Purpose**
 
@@ -149,8 +149,8 @@ A markdown file with five sections: Summary (one-paragraph overall description),
 
 ### 4. pr-draft
 
-**Directory**: `pr-draft/`
-**Instruction file**: `pr-draft/SKILL.md`
+**Directory**: `skills/pr-draft/`
+**Instruction file**: `skills/pr-draft/SKILL.md`
 
 **Purpose**
 
@@ -197,8 +197,8 @@ When no PR template is found, use this structure: Title (concise imperative summ
 
 ### 5. project-explanation
 
-**Directory**: `project-explanation/`
-**Instruction file**: `project-explanation/SKILL.md`
+**Directory**: `skills/project-explanation/`
+**Instruction file**: `skills/project-explanation/SKILL.md`
 
 **Purpose**
 
@@ -246,8 +246,8 @@ Phase 1: A structured inline summary followed by the feature-selection question.
 
 ### 6. push-to-origin
 
-**Directory**: `push-to-origin/`
-**Instruction file**: `push-to-origin/SKILL.md`
+**Directory**: `skills/push-to-origin/`
+**Instruction file**: `skills/push-to-origin/SKILL.md`
 
 **Purpose**
 

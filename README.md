@@ -23,7 +23,7 @@ For a comprehensive explanation of each skill's triggers, workflows, and rules, 
 
 Antigravity natively supports the skill directory format used by this repository.
 
-1. Clone this repository or download the directories you want to use.
+1. Clone this repository or download the directories from the `skills/` folder you want to use.
 2. Copy the desired skill directories into your Antigravity skills directory:
    - Linux and macOS: `~/.gemini/config/skills/`
    - Windows: `C:\Users\YOUR_USERNAME\.gemini\config\skills\`
@@ -33,11 +33,11 @@ Antigravity natively supports the skill directory format used by this repository
 
 Claude Code natively supports skills placed in a `.claude/skills` directory. The files must also be named `SKILL.md`.
 
-1. Clone this repository or download the directories you want to use.
+1. Clone this repository or download the directories from the `skills/` folder you want to use.
 2. Copy the desired skill directories (each containing their `SKILL.md` file) into your project's `.claude/skills` directory.
    - Example: `.claude/skills/code-changes-review/SKILL.md`
 3. Claude will automatically read and apply these skills based on the context of your task.
 
 ## Contributing
 
-Contributions are welcome. If you want to add a new skill or improve an existing one, please fork the repository and ensure that new skills are written in clear, unambiguous language, avoid emojis, and follow the formatting conventions of the existing skills.
+Contributions are welcome. If you want to add a new skill or improve an existing one, please fork the repository, add it to the `skills/` directory, and ensure that new skills are written in clear, unambiguous language, avoid emojis, and follow the formatting conventions of the existing skills.
