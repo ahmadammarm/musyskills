@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.1.0] - 2026-08-21
+
+### Added
+- Added `skills/prd-generator`: A workflow to systematically interview the user to draft and save a structured Product Requirements Document (PRD).
+- Documented `prd-generator` comprehensively in `docs/skills.md`.
+- Added `prd-generator` to the Available Skills list in `README.md`.
+
 ## [v1.0.0] - 2026-08-04
 
 ### Added

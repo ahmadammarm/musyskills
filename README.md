@@ -12,6 +12,7 @@ Most AI coding assistants are capable of performing complex multi-step tasks, bu
 - **code-changes-review**: Review uncommitted or staged code before merging.
 - **explain-changes**: Summarize and explain the current diff in plain language.
 - **pr-draft**: Draft or update a pull request title and description.
+- **prd-generator**: Systematically interview the user to draft and save a structured Product Requirements Document.
 - **project-explanation**: Explore and explain a codebase interactively.
 - **push-to-origin**: Commit and push changes with mandatory safety checks.
 

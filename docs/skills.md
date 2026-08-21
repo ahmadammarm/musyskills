@@ -297,3 +297,47 @@ The following must never be staged or committed, regardless of `git status`. Uns
 **Output Format**
 
 At the end of the workflow, report: Staged Files (the list of files included in the commit), Commit (the short hash and approved message), Push Result (success confirmation with remote URL and branch, or the exact error if failed), and Excluded Files (any files unstaged due to the Exclusion List with the reason for each exclusion).
+
+---
+
+### 7. prd-generator
+
+**Directory**: `skills/prd-generator/`
+**Instruction file**: `skills/prd-generator/SKILL.md`
+
+**Purpose**
+
+Systematically interview the user to extract all necessary product requirements for a new feature or product, and structure that information into a comprehensive Markdown Product Requirements Document (PRD). Ensures development does not begin until the scope, user stories, and technical constraints are well-defined.
+
+**Trigger Conditions**
+
+This skill activates when the user:
+- Asks to "write a PRD," "create a product requirements document," or "draft a PRD."
+- Uses the explicit slash command `/prd` or `/prd-generator`.
+- Asks to define, specify, or formalize a new feature's requirements before coding.
+
+**Pre-flight Checks**
+
+Before beginning the interview process, the agent must:
+1. Search the workspace for a PRD template (e.g., `docs/PRD_TEMPLATE.md` or `.github/PRD_TEMPLATE.md`).
+2. Check if the user has provided an existing partial PRD, notes, or an issue ticket.
+3. Check if there is an existing `docs/` folder in the project.
+
+**Workflow**
+
+1. Run an Initial Discovery phase to understand the core problem, target audience, and business/technical constraints. Use focused, interactive questions rather than an overwhelming questionnaire.
+2. Based on discovery, propose a list of "In Scope" and "Out of Scope" (Non-Goals) items, and draft 3-5 core User Stories with basic Acceptance Criteria.
+3. Ask the user to confirm the scope and user stories before proceeding. Do not write the full document yet.
+4. Once confirmed, generate the full PRD according to the required output format.
+5. Save the final PRD to a Markdown file in the project's documentation folder (e.g., `docs/PRD-[feature-name].md`) and present a link to the user.
+
+**Rules**
+
+- Do not hallucinate requirements or skip the interview phase.
+- Group questions logically; do not dump all questions at once.
+- The final PRD MUST be saved as a `.md` file. Do not print the entire PRD in the chat response.
+- If a section is not applicable, include the heading and write "N/A".
+
+**Output Format**
+
+A Markdown file containing exactly 9 sections (unless overridden by a repository template): Title & Meta Information, Overview & Problem Statement, Target Audience & Personas, Goals & Non-Goals, User Stories & Functional Requirements, User Experience (UX) & Design, Technical Considerations, Dependencies/Risks & Mitigations, and Success Metrics.
