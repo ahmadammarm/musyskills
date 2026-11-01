@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.1] - 2026-11-01
+
 ### Security
 - The npm publish workflow now uses trusted publishing (OIDC) instead of a stored `NPM_TOKEN`, so no long-lived npm token exists in the repository.
 - `.gitignore` now ignores `*.txt` files, so local notes such as recovery codes are not committed by accident.
