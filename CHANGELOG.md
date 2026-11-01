@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Website docs cover the whole journey: requirements, a four-step quick start, a first-install section (checking Node.js, the first `npx` run, and the optional global install), choosing a tool, project or global installs, using a skill, checking, updating, sharing, and removing skills, the Claude Code plugin, manual install, troubleshooting, and a command reference. Output examples come from the real CLI.
+
+### Fixed
+- Website on phones: only tables scroll sideways. Commands, output examples, code blocks, and the terminal's tool and skill rows wrap instead, and tables stay inside the content width with a shadow on the side where more columns are hidden.
+
 ## [v2.0.1] - 2026-11-01
 
 ### Fixed

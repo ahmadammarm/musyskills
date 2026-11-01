@@ -2,144 +2,526 @@
 import Base from '../layouts/Base.astro';
 import BlurText from '../components/BlurText.astro';
 import Command from '../components/Command.astro';
-import { toolLabels, toolNames, tools, url } from '../lib/site';
+import Output from '../components/Output.astro';
+import { REPO, VERSION, toolLabels, toolNames, tools, url } from '../lib/site';
 
-const sections = [
-  { id: 'requirements', title: 'Requirements' },
-  { id: 'install', title: 'Install skills' },
-  { id: 'where-skills-go', title: 'Where skills go' },
-  { id: 'update-and-remove', title: 'Update and remove' },
-  { id: 'your-edits', title: 'Your edits are kept' },
-  { id: 'claude-code-plugin', title: 'Claude Code plugin' },
-  { id: 'manual-install', title: 'Manual install' },
+const toc = [
+  {
+    group: 'Getting started',
+    items: [
+      { id: 'what-is-musyskills', title: 'What Musyskills is' },
+      { id: 'requirements', title: 'Requirements' },
+      { id: 'quick-start', title: 'Quick start' },
+    ],
+  },
+  {
+    group: 'Install',
+    items: [
+      { id: 'first-install', title: 'First install' },
+      { id: 'install-with-the-cli', title: 'Install skills with the CLI' },
+      { id: 'choose-a-tool', title: 'Choose a tool' },
+      { id: 'project-or-global', title: 'Project or global' },
+      { id: 'where-skills-go', title: 'Where skills go' },
+    ],
+  },
+  { group: 'Use', items: [{ id: 'use-a-skill', title: 'Use a skill' }] },
+  {
+    group: 'Maintain',
+    items: [
+      { id: 'check-your-install', title: 'Check your install' },
+      { id: 'update', title: 'Update' },
+      { id: 'your-edits-are-kept', title: 'Your edits are kept' },
+      { id: 'share-with-your-team', title: 'Share with your team' },
+      { id: 'remove', title: 'Remove' },
+    ],
+  },
+  {
+    group: 'Other ways to install',
+    items: [
+      { id: 'claude-code-plugin', title: 'Claude Code plugin' },
+      { id: 'manual-install', title: 'Manual install' },
+    ],
+  },
+  {
+    group: 'Help',
+    items: [
+      { id: 'troubleshooting', title: 'Troubleshooting' },
+      { id: 'command-reference', title: 'Command reference' },
+    ],
+  },
 ];
+const app = '~/projects/my-app';
 ---
 
-<Base title="Docs" description="Install, update, and remove Musyskills skills with the npm CLI, the Claude Code plugin, or by copying folders.">
+<Base title="Docs" description="Install Musyskills skills for the first time, use them with your coding agent, keep them up to date, and remove them. Covers the npm CLI, the Claude Code plugin, and manual install.">
   <div class="container-site">
-    <div class="grid grid-cols-1 gap-12 py-12 sm:py-14 lg:grid-cols-[minmax(0,1fr)_200px] lg:gap-16 lg:py-16">
+    <div class="grid grid-cols-1 gap-12 py-12 sm:py-14 lg:grid-cols-[minmax(0,1fr)_220px] lg:gap-16 lg:py-16">
       <article class="min-w-0">
         <BlurText text="Docs" class="text-[clamp(2rem,1.7rem+1.2vw,2.5rem)] leading-tight font-semibold tracking-[-0.04em]" />
-        <p class="mt-4 max-w-[40rem] text-[16px] leading-7 text-muted">
-          Musyskills ships as an npm CLI and as a Claude Code plugin. Both install the same files from the
-          repository's <code class="font-mono text-[14px] text-fg">skills/</code> folder.
+        <p class="mt-4 max-w-[42rem] text-[16px] leading-7 text-muted">
+          Everything from your first install to removing the last skill. If you only want the short version, read{' '}
+          <a href="#quick-start" class="text-fg underline decoration-line-strong underline-offset-4 hover:decoration-fg">Quick start</a>.
         </p>
 
+        <details class="group mt-8 rounded-lg border border-line lg:hidden">
+          <summary class="flex cursor-pointer list-none items-center justify-between px-4 py-3 text-[14px] font-medium [&::-webkit-details-marker]:hidden">
+            On this page
+            <span aria-hidden="true" class="text-muted transition-transform group-open:rotate-180">↓</span>
+          </summary>
+          <nav aria-label="On this page" class="border-t border-line px-4 py-3">
+            {
+              toc.map((section) => (
+                <div class="py-1.5">
+                  <p class="font-mono text-[11.5px] tracking-[0.08em] text-muted uppercase">{section.group}</p>
+                  <ul class="mt-1.5 grid gap-1 text-[14px]">
+                    {section.items.map((item) => (
+                      <li>
+                        <a href={`#${item.id}`} class="text-fg hover:underline">
+                          {item.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            }
+          </nav>
+        </details>
+
+        <!-- Getting started -->
         <div class="doc">
-          <h2 id="requirements">Requirements</h2>
+          <h2 id="what-is-musyskills">What Musyskills is</h2>
           <p>
-            The CLI needs <strong>Node.js 24 or later</strong>. It has no dependencies, and the skills are bundled in the
-            package, so it works offline once npx has downloaded it. The plugin and the manual install need no Node.js.
+            Musyskills (Must be Yours Skills) is a set of agent skills for developers. A skill is one Markdown file,
+            <code>SKILL.md</code>, that teaches your coding agent a workflow: what to check first, which steps to follow,
+            and which rules never to break. Your agent reads the skill when your request matches it, or when you call it
+            by name, and then follows the same steps every time.
+          </p>
+          <p>
+            Skills work in Claude Code, Codex, Cursor, and Antigravity. Each tool looks for skills in its own folder, and
+            the <code>musyskills</code> CLI puts them there for you.
           </p>
 
-          <h2 id="install">Install skills</h2>
-          <p>Run these in your project folder. Name one or more skills, or pass <code>--all</code>.</p>
+          <h2 id="requirements">Requirements</h2>
+          <ul>
+            <li><strong>Node.js 24 or later</strong> for the CLI. Check with <code>node -v</code>. The CLI has no other dependencies.</li>
+            <li>A project folder, or nothing at all if you install for your user with <code>--global</code>.</li>
+            <li>One of the supported tools: Claude Code, Codex, Cursor, or Antigravity.</li>
+          </ul>
+          <p>
+            The Claude Code plugin and the manual install do not need Node.js. Skills are bundled inside the npm package,
+            so once npx has downloaded it, installing skills works offline.
+          </p>
+
+          <h2 id="quick-start">Quick start</h2>
+          <p>Four steps from nothing to a working skill.</p>
+        </div>
+
+        <ol class="mt-6 grid gap-6">
+          <li class="grid grid-cols-[2rem_minmax(0,1fr)] gap-x-4">
+            <span class="grid size-8 place-items-center rounded-full border border-line font-mono text-[13px]">1</span>
+            <div class="min-w-0">
+              <h3 class="pt-1 text-[16px] font-semibold tracking-[-0.01em]">Check Node.js</h3>
+              <p class="mt-1.5 text-[15px] leading-7 text-muted">The version must be 24 or later.</p>
+              <Command class="mt-3" lines={['node -v']} />
+            </div>
+          </li>
+          <li class="grid grid-cols-[2rem_minmax(0,1fr)] gap-x-4">
+            <span class="grid size-8 place-items-center rounded-full border border-line font-mono text-[13px]">2</span>
+            <div class="min-w-0">
+              <h3 class="pt-1 text-[16px] font-semibold tracking-[-0.01em]">Open your project</h3>
+              <p class="mt-1.5 text-[15px] leading-7 text-muted">Go to the folder your agent works in.</p>
+              <Command class="mt-3" lines={['cd ~/projects/my-app']} />
+            </div>
+          </li>
+          <li class="grid grid-cols-[2rem_minmax(0,1fr)] gap-x-4">
+            <span class="grid size-8 place-items-center rounded-full border border-line font-mono text-[13px]">3</span>
+            <div class="min-w-0">
+              <h3 class="pt-1 text-[16px] font-semibold tracking-[-0.01em]">Install the skills</h3>
+              <p class="mt-1.5 text-[15px] leading-7 text-muted">
+                Install every skill, or name only the ones you want. The CLI finds which tools the project uses and
+                installs into each of their folders.
+              </p>
+              <Command class="mt-3" lines={['npx musyskills add --all']} />
+            </div>
+          </li>
+          <li class="grid grid-cols-[2rem_minmax(0,1fr)] gap-x-4">
+            <span class="grid size-8 place-items-center rounded-full border border-line font-mono text-[13px]">4</span>
+            <div class="min-w-0">
+              <h3 class="pt-1 text-[16px] font-semibold tracking-[-0.01em]">Start a new agent session and use a skill</h3>
+              <p class="mt-1.5 text-[15px] leading-7 text-muted">
+                Open a new session so the agent loads the skills, then ask for the work or call the skill by name.
+              </p>
+              <Command class="mt-3" prompt="" lines={['/code-changes-review']} />
+            </div>
+          </li>
+        </ol>
+
+        <!-- Install -->
+        <div class="doc">
+          <h2 id="first-install">First install</h2>
+          <p>
+            The CLI is the npm package <code>musyskills</code>. You do not need to install it ahead of time:
+            <code>npx</code>, which comes with Node.js, downloads it the first time you run it. Start by checking your
+            Node.js version:
+          </p>
+        </div>
+        <Command class="mt-5" lines={['node -v']} />
+        <Output class="mt-3">v24.11.0</Output>
+        <div class="doc">
+          <p>
+            Any version from <code>v24</code> up works. Then run the CLI once. On the first run, npx asks to download
+            <code>musyskills</code>; type <code>y</code> and press Enter. Later runs use the downloaded copy.
+          </p>
+        </div>
+        <Command class="mt-5" lines={['npx musyskills --version']} />
+        <Output class="mt-3">{VERSION}</Output>
+        <div class="doc">
+          <p>
+            Seeing the version number means the CLI works. If you would rather type <code>musyskills</code> without
+            <code>npx</code>, install it globally instead. Every command on this page then works without the
+            <code>npx</code> prefix:
+          </p>
         </div>
         <div class="mt-5 grid grid-cols-1 gap-2">
-          <Command lines={['npx musyskills list']} />
-          <Command lines={['npx musyskills add pr-draft push-to-origin']} />
-          <Command lines={['npx musyskills add --all --tool cursor']} />
+          <Command lines={['npm install -g musyskills']} />
+          <Command lines={['musyskills --version']} />
         </div>
         <div class="doc">
+          <p>
+            With a global install, update the CLI itself with <code>npm install -g musyskills@latest</code> before running
+            <code>musyskills update</code>.
+          </p>
+
+          <h2 id="install-with-the-cli">Install skills with the CLI</h2>
+          <p>See every skill with a one-line description first:</p>
+        </div>
+        <Command class="mt-5" lines={['npx musyskills list']} />
+        <Output class="mt-3">{`apply-review-feedback  Implement fixes for existing code review comments or requested changes...
+code-changes-review    Review modified or staged code for correctness, security, readability...
+explain-changes        Summarize and explain the current uncommitted or unpushed code changes...
+pr-draft               Prepare or update a pull request title and description for the current...
+prd-generator          Generate a structured Product Requirements Document (PRD) by interviewing...
+project-explanation    Understand a project comprehensively and explain it clearly to the user.
+push-to-origin         Reviews uncommitted changes, excludes files that shouldn't be committed...
+release                Cut a new release from the changes recorded under [Unreleased] in CHANGELOG.md.`}</Output>
+        <div class="doc">
+          <p>Then install one skill, several, or all of them:</p>
+        </div>
+        <div class="mt-5 grid grid-cols-1 gap-2">
+          <Command lines={['npx musyskills add pr-draft']} />
+          <Command lines={['npx musyskills add pr-draft push-to-origin release']} />
+          <Command lines={['npx musyskills add --all']} />
+        </div>
+        <div class="doc">
+          <p>The CLI prints which tools it detected and what it did in each folder:</p>
+        </div>
+        <Output class="mt-5">{`Detected: claude
+
+${app}/.claude/skills (claude)
+  installed pr-draft
+  installed push-to-origin`}</Output>
+        <div class="doc">
+          <p>
+            Running <code>add</code> again is safe. A skill that is already current is reported as
+            <code>unchanged</code>, and an older copy is replaced with the version in this CLI.
+          </p>
+
+          <h2 id="choose-a-tool">Choose a tool</h2>
+          <p>
+            Without <code>--tool</code>, the CLI looks in the project for files each tool creates and installs for every
+            tool it finds:
+          </p>
           <div class="table-scroll"><table>
-            <thead><tr><th>Option</th><th>What it does</th></tr></thead>
+            <thead><tr><th>Tool</th><th>Detected when the project has</th></tr></thead>
             <tbody>
-              <tr><td><code>--tool &lt;name&gt;</code></td><td><code>claude</code>, <code>codex</code>, <code>cursor</code>, or <code>antigravity</code>. Repeat it or separate with commas for several tools.</td></tr>
-              <tr><td><code>--global</code></td><td>Install for your user instead of the current project.</td></tr>
-              <tr><td><code>--all</code></td><td>With <code>add</code>, install every skill.</td></tr>
-              <tr><td><code>--force</code></td><td>Overwrite or remove a skill you edited, or one musyskills did not install.</td></tr>
+              {toolNames.map((t) => (
+                <tr>
+                  <td class="text-fg">{toolLabels[t]}</td>
+                  <td>{tools[t].markers.map((m, i) => <>{i > 0 && ' or '}<code>{m}</code></>)}</td>
+                </tr>
+              ))}
             </tbody>
           </table></div>
           <p>
-            Without <code>--tool</code>, musyskills looks for each tool's files in the project, such as
-            <code>.claude/</code>, <code>AGENTS.md</code>, <code>.cursor/</code>, or <code>.gemini/</code>, and installs
-            for every tool it finds. If it finds none, it asks in an interactive terminal and otherwise uses
-            <code>claude</code>.
+            If it finds none, it asks which tool to use when you run it in a terminal, and uses Claude Code otherwise.
+            To choose yourself, pass <code>--tool</code>. Repeat it, or separate names with commas, for several tools:
+          </p>
+        </div>
+        <div class="mt-5 grid grid-cols-1 gap-2">
+          <Command lines={['npx musyskills add --all --tool cursor']} />
+          <Command lines={['npx musyskills add --all --tool claude,codex']} />
+        </div>
+
+        <div class="doc">
+          <h2 id="project-or-global">Project or global</h2>
+          <p>
+            By default skills go into the current project, so they only apply there and can be committed with the code.
+            Add <code>--global</code> to install for your user instead, so every project on this computer gets them:
+          </p>
+        </div>
+        <Command class="mt-5" lines={['npx musyskills add --all --global --tool claude']} />
+        <div class="doc">
+          <p>
+            With <code>--global</code>, detection looks in your home folder instead of the project. Use the same flag
+            with <code>update</code>, <code>remove</code>, and <code>doctor</code> to manage global skills.
           </p>
 
           <h2 id="where-skills-go">Where skills go</h2>
           <div class="table-scroll"><table>
-            <thead><tr><th>Tool</th><th>Project</th><th>Global</th><th>Detected by</th></tr></thead>
+            <thead><tr><th>Tool</th><th>Project</th><th>Global</th></tr></thead>
             <tbody>
-              {
-                toolNames.map((t) => (
-                  <tr>
-                    <td class="text-fg">{toolLabels[t]}</td>
-                    <td><code>{tools[t].project}/</code></td>
-                    <td><code>~/{tools[t].global}/</code></td>
-                    <td>{tools[t].markers.map((m, i) => <>{i > 0 && ', '}<code>{m}</code></>)}</td>
-                  </tr>
-                ))
-              }
+              {toolNames.map((t) => (
+                <tr>
+                  <td class="text-fg">{toolLabels[t]}</td>
+                  <td><code>{tools[t].project}/</code></td>
+                  <td><code>~/{tools[t].global}/</code></td>
+                </tr>
+              ))}
             </tbody>
           </table></div>
-          <p>Codex and Antigravity share <code>.agents/skills/</code> in a project, so a skill is installed there once.</p>
+          <p>
+            Each skill is a folder with a <code>SKILL.md</code> inside, for example
+            <code>.claude/skills/pr-draft/SKILL.md</code>. On Windows, <code>~</code> is your user folder, such as
+            <code>C:\Users\you</code>. Codex and Antigravity share <code>.agents/skills/</code> in a project, so a skill is
+            installed there once.
+          </p>
 
-          <h2 id="update-and-remove">Update and remove</h2>
+          <!-- Use -->
+          <h2 id="use-a-skill">Use a skill</h2>
+          <p>Agents load skills when a session starts, so open a new session after installing. Then there are two ways in:</p>
+          <ul>
+            <li>
+              <strong>Ask for the work.</strong> Each skill's description lists the requests it handles. "Review my
+              changes before I commit" runs <code>code-changes-review</code>, and "commit and push this" runs
+              <code>push-to-origin</code>.
+            </li>
+            <li>
+              <strong>Call it by name.</strong> Type <code>/</code> and the skill name, optionally followed by what the
+              skill expects. Each skill page on this site shows its usage.
+            </li>
+          </ul>
         </div>
         <div class="mt-5 grid grid-cols-1 gap-2">
-          <Command lines={['npx musyskills@latest update']} />
-          <Command lines={['npx musyskills remove pr-draft']} />
-          <Command lines={['npx musyskills doctor']} />
+          <Command prompt="" lines={['/pr-draft']} />
+          <Command prompt="" lines={['/push-to-origin "fix: handle empty config"']} />
+          <Command prompt="" lines={['/prd-generator team invitations']} />
         </div>
         <div class="doc">
           <p>
-            <code>update</code> brings every skill musyskills installed up to the CLI's version. <code>doctor</code> shows
-            the tools it detected, the folders it found, and the state of each skill.
+            Skills that change something outside your machine, such as <code>push-to-origin</code> and
+            <code>release</code>, always show you what they are about to do and wait for your confirmation first.
+            <a href={url('#skills')}>Browse every skill</a> to see what each one does.
           </p>
 
-          <h2 id="your-edits">Your edits are kept</h2>
+          <!-- Maintain -->
+          <h2 id="check-your-install">Check your install</h2>
+          <p><code>doctor</code> shows the tools it detected, every skills folder it found, and the state of each skill:</p>
+        </div>
+        <Command class="mt-5" lines={['npx musyskills doctor']} />
+        <Output class="mt-3">{`musyskills ${VERSION} (project: ${app})
+Detected tools: claude
+
+${app}/.claude/skills (claude)
+  pr-draft: modified
+  push-to-origin: current`}</Output>
+
+        <div class="doc">
+          <h2 id="update">Update</h2>
           <p>
-            Each skills folder gets a <code>.musyskills.json</code> file that records which skills musyskills installed and
-            a hash of their files. musyskills uses it to decide what it may touch:
+            <code>update</code> brings every skill that musyskills installed up to the CLI's version. Use
+            <code>@latest</code> so npx does not reuse an older cached copy of the CLI:
+          </p>
+        </div>
+        <div class="mt-5 grid grid-cols-1 gap-2">
+          <Command lines={['npx musyskills@latest update']} />
+          <Command lines={['npx musyskills@latest update --global']} />
+        </div>
+        <Output class="mt-3">{`${app}/.claude/skills (claude)
+  updated pr-draft
+  unchanged push-to-origin`}</Output>
+        <div class="doc">
+          <p>
+            <code>update</code> checks the folders of every supported tool, so it needs no <code>--tool</code>. It only
+            touches the project, or only your user folder with <code>--global</code>. If it finds nothing it prints
+            <code>No skills installed by musyskills were found.</code>
+          </p>
+
+          <h2 id="your-edits-are-kept">Your edits are kept</h2>
+          <p>
+            You can edit an installed <code>SKILL.md</code> to fit your team. musyskills keeps a record in each skills
+            folder, <code>.musyskills.json</code>, with the version and a fingerprint of every skill it installed. Before
+            changing anything, it compares the files with that record:
           </p>
           <div class="table-scroll"><table>
-            <thead><tr><th>State</th><th>Meaning</th><th>add and update</th></tr></thead>
+            <thead><tr><th>State</th><th>Meaning</th><th>add and update</th><th>remove</th></tr></thead>
             <tbody>
-              <tr><td><code>current</code></td><td>Same as this version</td><td>Left as is</td></tr>
-              <tr><td><code>outdated</code></td><td>Unchanged since install, newer version available</td><td>Updated</td></tr>
-              <tr><td><code>modified</code></td><td>You edited it after install</td><td>Skipped unless <code>--force</code></td></tr>
-              <tr><td><code>foreign</code></td><td>Not installed by musyskills</td><td>Skipped unless <code>--force</code></td></tr>
+              <tr><td><code>current</code></td><td>Same as this version</td><td>Left as is</td><td>Removed</td></tr>
+              <tr><td><code>outdated</code></td><td>Unchanged since install, newer version available</td><td>Updated</td><td>Removed</td></tr>
+              <tr><td><code>modified</code></td><td>You edited it after install</td><td>Skipped</td><td>Skipped</td></tr>
+              <tr><td><code>foreign</code></td><td>A folder musyskills did not install</td><td>Skipped</td><td>Skipped</td></tr>
             </tbody>
           </table></div>
+          <p>A skipped skill is listed with the reason:</p>
+        </div>
+        <Output class="mt-5">{`${app}/.claude/skills (claude)
+  skipped pr-draft: was edited after install (use --force to overwrite)`}</Output>
+        <div class="doc">
+          <p>
+            To replace your edited copy with the released one, add <code>--force</code>. Keep a copy of your changes
+            first if you want them back.
+          </p>
 
+          <h2 id="share-with-your-team">Share with your team</h2>
+          <p>
+            Project skills are ordinary files. Commit the skills folder, including <code>.musyskills.json</code>, and
+            everyone who clones the repository gets the same skills. Anyone can later run
+            <code>npx musyskills@latest update</code> and commit the result.
+          </p>
+        </div>
+        <Command class="mt-5" lines={['git add .claude/skills', 'git commit -m "chore: add musyskills skills"']} />
+
+        <div class="doc">
+          <h2 id="remove">Remove</h2>
+          <p>Name the skills to remove. Only skills that musyskills installed, and that you did not edit, are removed:</p>
+        </div>
+        <div class="mt-5 grid grid-cols-1 gap-2">
+          <Command lines={['npx musyskills remove pr-draft']} />
+          <Command lines={['npx musyskills remove release --global --tool antigravity']} />
+        </div>
+        <div class="doc">
+          <p>
+            To remove everything, list every skill by name, as shown by <code>npx musyskills list</code>. When the last
+            skill in a folder is removed, <code>.musyskills.json</code> is deleted too. Add <code>--force</code> to also
+            remove skills you edited.
+          </p>
+        </div>
+
+        <!-- Other ways -->
+        <div class="doc">
           <h2 id="claude-code-plugin">Claude Code plugin</h2>
-          <p>Run these inside Claude Code to install every skill as one plugin:</p>
+          <p>
+            In Claude Code you can install every skill as one plugin instead of using the CLI. Run these inside Claude
+            Code:
+          </p>
         </div>
         <Command class="mt-5" prompt="" lines={['/plugin marketplace add ahmadammarm/musyskills', '/plugin install musyskills@musyskills']} />
         <div class="doc">
           <p>
-            Plugin skills are namespaced, for example <code>/musyskills:pr-draft</code>. The short <code>/pr-draft</code>
-            also works when no other command uses that name. Get new releases with
-            <code>/plugin marketplace update musyskills</code>, or turn on auto-update under <code>/plugin</code> &gt;
-            Marketplaces.
+            Plugin skills are namespaced: call them as <code>/musyskills:pr-draft</code>. The short <code>/pr-draft</code>
+            also works when no other command uses that name. Get new releases with the first command below, or turn on
+            auto-update under <code>/plugin</code> &gt; Marketplaces. The other two remove the plugin and the
+            marketplace.
+          </p>
+        </div>
+        <div class="mt-5 grid grid-cols-1 gap-2">
+          <Command prompt="" lines={['/plugin marketplace update musyskills']} />
+          <Command prompt="" lines={['/plugin uninstall musyskills@musyskills']} />
+          <Command prompt="" lines={['/plugin marketplace remove musyskills']} />
+        </div>
+        <div class="doc">
+          <p>
+            Use either the plugin or the CLI for Claude Code, not both, so the same skill is not loaded twice.
           </p>
 
           <h2 id="manual-install">Manual install</h2>
+          <ol>
+            <li>Download or clone the <a href={`${REPO}/tree/main/skills`}>skills folder</a>.</li>
+            <li>Copy the skill folders you want into your tool's folder from <a href="#where-skills-go">Where skills go</a>, keeping the file name <code>SKILL.md</code>.</li>
+            <li>Start a new agent session.</li>
+          </ol>
           <p>
-            Copy a folder from <a href="https://github.com/ahmadammarm/musyskills/tree/main/skills">skills/</a> into the
-            tool's folder from <a href={url('docs/#where-skills-go')}>the table above</a>, keeping the file name
-            <code>SKILL.md</code>. For example, <code>skills/pr-draft/</code> becomes
-            <code>.claude/skills/pr-draft/SKILL.md</code>. Restart the agent session so it picks up the new skill.
+            For example, <code>skills/pr-draft/</code> becomes <code>.claude/skills/pr-draft/SKILL.md</code>. Skills
+            copied by hand have no record in <code>.musyskills.json</code>, so the CLI treats them as
+            <code>foreign</code> and leaves them alone. To manage them with the CLI later, delete the copies and run
+            <code>npx musyskills add</code>.
+          </p>
+
+          <!-- Help -->
+          <h2 id="troubleshooting">Troubleshooting</h2>
+
+          <h3>The agent does not see a new skill</h3>
+          <p>
+            Start a new session; agents read skills when a session starts. Then run <code>npx musyskills doctor</code> to
+            confirm the skill is in the folder your tool reads. If it went to the wrong tool, install again with
+            <code>--tool</code>.
+          </p>
+
+          <h3>npm warns about an unsupported engine</h3>
+          <p>
+            Your Node.js is older than 24. Check with <code>node -v</code> and install Node.js 24 or later from
+            <a href="https://nodejs.org">nodejs.org</a> or your version manager.
+          </p>
+
+          <h3>"was edited after install"</h3>
+          <p>
+            You or a teammate changed that skill. musyskills will not overwrite it. Keep it, or pass
+            <code>--force</code> to replace it with the released version.
+          </p>
+
+          <h3>"exists but was not installed by musyskills"</h3>
+          <p>
+            A folder with that name was already there, for example from a manual copy. Rename or delete it, or pass
+            <code>--force</code> to replace it.
+          </p>
+
+          <h3>"Unknown skill"</h3>
+          <p>The name is misspelled. Run <code>npx musyskills list</code> for the exact names.</p>
+
+          <h3><code>update</code> keeps installing an old version</h3>
+          <p>npx reused an older cached CLI. Run <code>npx musyskills@latest update</code>.</p>
+
+          <h2 id="command-reference">Command reference</h2>
+          <div class="table-scroll"><table>
+            <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+            <tbody>
+              <tr><td><code>list</code></td><td>List every available skill with its description.</td></tr>
+              <tr><td><code>add &lt;skill...&gt;</code></td><td>Install or update the named skills. Use <code>--all</code> for every skill.</td></tr>
+              <tr><td><code>update</code></td><td>Update every skill musyskills installed, in all tool folders.</td></tr>
+              <tr><td><code>remove &lt;skill...&gt;</code></td><td>Remove the named skills that musyskills installed.</td></tr>
+              <tr><td><code>doctor</code></td><td>Show detected tools, skills folders, and the state of each skill.</td></tr>
+            </tbody>
+          </table></div>
+          <div class="table-scroll"><table>
+            <thead><tr><th>Option</th><th>What it does</th></tr></thead>
+            <tbody>
+              <tr><td><code>-t, --tool &lt;name&gt;</code></td><td><code>claude</code>, <code>codex</code>, <code>cursor</code>, or <code>antigravity</code>. Repeat or comma-separate for several.</td></tr>
+              <tr><td><code>-g, --global</code></td><td>Use your user folder instead of the current project.</td></tr>
+              <tr><td><code>-a, --all</code></td><td>With <code>add</code>, every skill.</td></tr>
+              <tr><td><code>-f, --force</code></td><td>Overwrite or remove skills you edited or that musyskills did not install.</td></tr>
+              <tr><td><code>-h, --help</code></td><td>Show help.</td></tr>
+              <tr><td><code>-v, --version</code></td><td>Show the CLI version.</td></tr>
+            </tbody>
+          </table></div>
+          <p>
+            The CLI exits with <code>0</code> on success, <code>2</code> for a usage mistake such as an unknown skill or
+            tool, and <code>1</code> for any other error.
           </p>
         </div>
       </article>
 
       <aside class="hidden lg:block">
-        <div class="sticky top-24">
-          <p class="font-mono text-[12px] tracking-[0.08em] text-muted uppercase">On this page</p>
-          <ul class="mt-3 space-y-2 border-l border-line text-[13.5px]">
-            {
-              sections.map((s) => (
-                <li>
-                  <a href={`#${s.id}`} class="-ml-px block border-l border-transparent pl-3 text-muted transition-colors hover:border-fg hover:text-fg">
-                    {s.title}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
+        <nav aria-label="On this page" class="sticky top-24 max-h-[calc(100dvh-8rem)] overflow-y-auto pb-6">
+          {
+            toc.map((section, i) => (
+              <div class:list={[i > 0 && 'mt-5']}>
+                <p class="font-mono text-[11.5px] tracking-[0.08em] text-muted uppercase">{section.group}</p>
+                <ul class="mt-2 space-y-1.5 border-l border-line text-[13.5px]">
+                  {section.items.map((item) => (
+                    <li>
+                      <a
+                        href={`#${item.id}`}
+                        class="-ml-px block border-l border-transparent pl-3 text-muted transition-colors hover:border-fg hover:text-fg"
+                      >
+                        {item.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </nav>
       </aside>
     </div>
   </div>

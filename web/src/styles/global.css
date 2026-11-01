@@ -81,8 +81,13 @@
   .doc {
     @apply text-[15px] leading-7 text-fg;
   }
-  .doc > :first-child {
+  /* Text that opens a block sits flush; a block that follows a command or an
+     output example gets breathing room. Headings keep their own spacing. */
+  .doc > :is(p, ul, ol, div):first-child {
     @apply mt-0;
+  }
+  * + .doc {
+    @apply mt-5;
   }
   .doc h1 {
     @apply sr-only;
@@ -120,7 +125,7 @@
     @apply rounded-[5px] border border-line bg-subtle px-[0.35em] py-[0.1em] font-mono text-[0.86em] text-fg;
   }
   .doc pre {
-    @apply my-5 overflow-x-auto rounded-lg border border-line bg-subtle p-4 font-mono text-[13px] leading-6;
+    @apply my-5 rounded-lg border border-line bg-subtle p-4 font-mono text-[13px] leading-6 whitespace-pre-wrap [overflow-wrap:anywhere];
   }
   .doc pre code {
     @apply border-0 bg-transparent p-0 text-[1em];
@@ -242,27 +247,29 @@
   }
 }
 
-/* One scrollable row that fades out at the right edge on small screens. */
-@utility scroll-fade {
-  scrollbar-width: none;
-  mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  @media (width >= 40rem) {
-    mask-image: none;
-  }
-}
-
 @layer components {
   .doc code {
     overflow-wrap: anywhere;
   }
   .doc .table-scroll {
-    @apply -mx-4 my-5 overflow-x-auto px-4 sm:mx-0 sm:px-0;
+    @apply my-5 overflow-x-auto overscroll-x-contain;
   }
   .doc .table-scroll table {
     @apply my-0 min-w-[540px];
+  }
+  /* Tables written in Markdown (skill pages, changelog) scroll the same way. */
+  .doc > table {
+    @apply block overflow-x-auto overscroll-x-contain;
+  }
+  /* Scroll shadows: a soft edge appears only on the side where more columns
+     are hidden. The "local" layers cover the shadows once you reach an end. */
+  .doc .table-scroll,
+  .doc > table {
+    background:
+      linear-gradient(to right, var(--bg) 40%, transparent) left / 28px 100% no-repeat local,
+      linear-gradient(to left, var(--bg) 40%, transparent) right / 28px 100% no-repeat local,
+      linear-gradient(to right, color-mix(in srgb, var(--fg) 14%, transparent), transparent) left / 14px 100% no-repeat scroll,
+      linear-gradient(to left, color-mix(in srgb, var(--fg) 14%, transparent), transparent) right / 14px 100% no-repeat scroll;
   }
   .doc .table-scroll code {
     overflow-wrap: normal;

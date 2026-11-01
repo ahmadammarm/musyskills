@@ -15,8 +15,8 @@ const data = JSON.stringify({ tools, skills });
   data-terminal={data}
   class="overflow-hidden rounded-xl border border-term-line bg-term text-term-fg shadow-[0_1px_0_0_rgba(255,255,255,0.06)_inset,0_24px_48px_-24px_rgba(0,0,0,0.45)]"
 >
-  <div class="flex items-center gap-3 border-b border-term-line px-2 py-2">
-    <div role="group" aria-label="Agent tool" class="scroll-fade flex min-w-0 flex-1 gap-0.5 overflow-x-auto">
+  <div class="flex flex-wrap items-center justify-between gap-2 border-b border-term-line px-2 py-2">
+    <div role="group" aria-label="Agent tool" class="flex flex-wrap gap-0.5">
       {
         toolNames.map((tool, i) => (
           <button
@@ -55,8 +55,8 @@ const data = JSON.stringify({ tools, skills });
   installed pr-draft</code><span data-caret class="ml-px inline-block h-[15px] w-[7px] translate-y-[2px] bg-term-fg motion-safe:animate-[blink_1.1s_steps(1)_infinite]"></span></pre>
   </div>
 
-  <div class="flex items-center gap-2 border-t border-term-line px-2 py-2">
-    <div role="group" aria-label="Skill" class="scroll-fade flex min-w-0 flex-1 gap-0.5 overflow-x-auto">
+  <div class="flex items-start gap-2 border-t border-term-line px-2 py-2">
+    <div role="group" aria-label="Skill" class="flex min-w-0 flex-1 flex-wrap gap-0.5">
       {
         [...featured, '--all'].map((skill, i) => (
           <button

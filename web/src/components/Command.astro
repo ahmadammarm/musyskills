@@ -10,10 +10,10 @@ const { lines, prompt = '$', class: className = '' } = Astro.props;
 ---
 
 <div class:list={['flex items-start gap-3 rounded-lg border border-line bg-subtle py-2.5 pr-2 pl-3.5', className]}>
-  <code class="min-w-0 flex-1 overflow-x-auto py-0.5 font-mono text-[13px] leading-6">
+  <code class="min-w-0 flex-1 py-0.5 font-mono text-[13px] leading-6">
     {
       lines.map((line) => (
-        <span class="block whitespace-pre">{prompt && <span class="text-muted select-none">{prompt} </span>}{line}</span>
+        <span class="block whitespace-pre-wrap [overflow-wrap:anywhere]">{prompt && <span class="text-muted select-none">{prompt} </span>}{line}</span>
       ))
     }
   </code>
