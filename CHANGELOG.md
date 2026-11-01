@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.3.0] - 2026-11-01
+
 ### Added
 - Claude Code plugin marketplace (`.claude-plugin/marketplace.json` and `plugin.json`). Install all skills with `/plugin marketplace add ahmadammarm/musyskills` and `/plugin install musyskills@musyskills`.
 - `skills/release`: a workflow that picks the Semantic Versioning bump from `[Unreleased]`, updates the changelog and version files, commits, tags, pushes after confirmation, and publishes release notes.
