@@ -28,7 +28,10 @@ const hint = skill.data['argument-hint'];
           <span class="text-fg" aria-current="page">{skill.id}</span>
         </nav>
 
-        <h1 class="mt-5 font-mono text-[30px] leading-tight font-medium tracking-[-0.03em] sm:text-[36px]">{skill.id}</h1>
+        <h1 class="mt-5 font-mono text-[30px] leading-tight font-medium tracking-[-0.03em] sm:text-[36px]">
+          <span class="sr-only">{skill.id}</span>
+          <span aria-hidden="true" data-decrypt="700">{skill.id}</span>
+        </h1>
         <p class="mt-4 max-w-[42rem] text-[16px] leading-7 text-muted">{skill.data.description}</p>
 
         <div class="mt-8 grid gap-3">
@@ -57,10 +60,10 @@ const hint = skill.data['argument-hint'];
           <Content />
         </div>
 
-        <nav aria-label="More skills" class="mt-16 grid gap-3 border-t border-line pt-8 sm:grid-cols-2">
+        <nav aria-label="More skills" data-spotlight-group data-reveal class="mt-16 grid gap-3 border-t border-line pt-8 sm:grid-cols-2">
           {
             prev ? (
-              <a href={url(`skills/${prev.id}/`)} class="rounded-lg border border-line px-4 py-3 transition-colors hover:border-line-strong hover:bg-subtle">
+              <a href={url(`skills/${prev.id}/`)} class="spotlight overflow-hidden rounded-lg border border-line px-4 py-3 transition-colors hover:border-line-strong">
                 <span class="block text-[12px] text-muted">Previous</span>
                 <span class="font-mono text-[14px]">{prev.id}</span>
               </a>
@@ -70,7 +73,7 @@ const hint = skill.data['argument-hint'];
           }
           {
             next && (
-              <a href={url(`skills/${next.id}/`)} class="rounded-lg border border-line px-4 py-3 text-right transition-colors hover:border-line-strong hover:bg-subtle">
+              <a href={url(`skills/${next.id}/`)} class="spotlight overflow-hidden rounded-lg border border-line px-4 py-3 text-right transition-colors hover:border-line-strong">
                 <span class="block text-[12px] text-muted">Next</span>
                 <span class="font-mono text-[14px]">{next.id}</span>
               </a>

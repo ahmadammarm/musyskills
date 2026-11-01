@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import BlurText from '../components/BlurText.astro';
 import Command from '../components/Command.astro';
 import { toolLabels, toolNames, tools, url } from '../lib/site';
 
@@ -18,7 +19,7 @@ const sections = [
   <div class="mx-auto max-w-[1120px] px-4 sm:px-6">
     <div class="grid gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_200px] lg:gap-16 lg:py-16">
       <article class="min-w-0">
-        <h1 class="text-[36px] leading-tight font-semibold tracking-[-0.04em]">Docs</h1>
+        <BlurText text="Docs" class="text-[36px] leading-tight font-semibold tracking-[-0.04em]" />
         <p class="mt-4 max-w-[40rem] text-[16px] leading-7 text-muted">
           Musyskills ships as an npm CLI and as a Claude Code plugin. Both install the same files from the
           repository's <code class="font-mono text-[14px] text-fg">skills/</code> folder.

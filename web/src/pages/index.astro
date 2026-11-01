@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Terminal from '../components/Terminal.astro';
 import Command from '../components/Command.astro';
+import BlurText from '../components/BlurText.astro';
 import { REPO, stages, summary, url } from '../lib/site';
 
 const all = (await getCollection('skills')).sort((a, b) => a.id.localeCompare(b.id));
@@ -17,15 +18,23 @@ const count = words[all.length] ?? String(all.length);
 ---
 
 <Base>
-  <section class="border-b border-line">
-    <div class="mx-auto grid max-w-[1120px] gap-12 px-4 pt-16 pb-20 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.12fr)] lg:items-center lg:gap-14 lg:pt-24 lg:pb-28">
+  <section class="relative overflow-hidden border-b border-line">
+    <canvas
+      data-dot-field
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 size-full [mask-image:radial-gradient(ellipse_75%_70%_at_50%_45%,#000_35%,transparent_100%)]"
+    ></canvas>
+    <div class="relative mx-auto grid max-w-[1120px] gap-12 px-4 pt-16 pb-20 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.12fr)] lg:items-center lg:gap-14 lg:pt-24 lg:pb-28">
       <div>
         <p class="font-mono text-[13px] tracking-[-0.01em] text-muted">
-          <span class="text-fg">Mus</span>t be <span class="text-fg">y</span>ours <span class="text-fg">skills</span>
+          <span class="sr-only">Musyskills: Must be yours skills</span>
+          <span aria-hidden="true" data-decrypt="1100"><span class="text-fg">Mus</span>t be <span class="text-fg">y</span>ours <span class="text-fg">skills</span></span>
         </p>
-        <h1 class="mt-5 text-[40px] leading-[1.02] font-semibold tracking-[-0.045em] text-balance sm:text-[56px]">
-          The agent skills every developer should own.
-        </h1>
+        <BlurText
+          text="The agent skills every developer should own."
+          delay={150}
+          class="mt-5 text-[40px] leading-[1.02] font-semibold tracking-[-0.045em] text-balance sm:text-[56px]"
+        />
         <p class="mt-6 max-w-[34rem] text-[17px] leading-7 text-pretty text-muted">
           {count} Markdown workflows for software engineers, web developers, and anyone who ships code: review changes,
           draft pull requests, and release without skipping the safety checks. Install them into Claude Code, Codex,
@@ -34,11 +43,13 @@ const count = words[all.length] ?? String(all.length);
         <div class="mt-8 flex flex-wrap gap-3">
           <a
             href="#skills"
+            data-magnet
             class="inline-flex h-10 items-center rounded-md bg-fg px-4 text-[14px] font-medium text-bg transition-opacity hover:opacity-85"
             >Browse skills</a
           >
           <a
             href={url('docs/')}
+            data-magnet
             class="inline-flex h-10 items-center rounded-md border border-line px-4 text-[14px] font-medium text-fg transition-colors hover:border-line-strong hover:bg-subtle"
             >Read the docs</a
           >
@@ -51,7 +62,7 @@ const count = words[all.length] ?? String(all.length);
 
   <section id="skills" class="scroll-mt-14 border-b border-line">
     <div class="mx-auto max-w-[1120px] px-4 py-20 sm:px-6">
-      <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div data-reveal class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <h2 class="text-[28px] font-semibold tracking-[-0.035em]">Skills</h2>
         <p class="max-w-[30rem] text-[14px] text-muted">
           Each skill is a single <code class="font-mono text-[13px] text-fg">SKILL.md</code> file. Read it before you
@@ -59,10 +70,13 @@ const count = words[all.length] ?? String(all.length);
         </p>
       </div>
 
-      <div class="mt-10 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-2 lg:grid-cols-4">
+      <div
+        data-spotlight-group
+        class="spotlight-lines mt-10 grid gap-px overflow-hidden rounded-xl border border-line md:grid-cols-2 lg:grid-cols-4"
+      >
         {
-          groups.map((group) => (
-            <div class="flex flex-col bg-bg">
+          groups.map((group, i) => (
+            <div data-reveal style={`--reveal-delay:${i * 90}ms`} class="flex flex-col bg-bg">
               <div class="border-b border-line px-5 py-3">
                 <h3 class="font-mono text-[12px] tracking-[0.08em] text-fg uppercase">{group.name}</h3>
                 <p class="mt-0.5 text-[12.5px] text-muted">{group.blurb}</p>
@@ -70,7 +84,7 @@ const count = words[all.length] ?? String(all.length);
               <ul class="flex flex-1 flex-col">
                 {group.items.map((skill) => (
                   <li class="border-b border-line last:border-b-0">
-                    <a href={url(`skills/${skill.id}/`)} class="group block px-5 py-4 transition-colors hover:bg-subtle">
+                    <a href={url(`skills/${skill.id}/`)} class="spotlight group block px-5 py-4">
                       <span class="flex items-center justify-between gap-2 font-mono text-[14px] font-medium text-fg">
                         {skill.id}
                         <span aria-hidden="true" class="text-muted opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100">
@@ -91,8 +105,8 @@ const count = words[all.length] ?? String(all.length);
 
   <section>
     <div class="mx-auto max-w-[1120px] px-4 py-20 sm:px-6">
-      <h2 class="text-[28px] font-semibold tracking-[-0.035em]">Other ways to install</h2>
-      <div class="mt-10 divide-y divide-line border-y border-line">
+      <h2 data-reveal class="text-[28px] font-semibold tracking-[-0.035em]">Other ways to install</h2>
+      <div data-reveal class="mt-10 divide-y divide-line border-y border-line">
         <div class="grid gap-4 py-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-10">
           <div>
             <h3 class="text-[15px] font-medium">Claude Code plugin</h3>

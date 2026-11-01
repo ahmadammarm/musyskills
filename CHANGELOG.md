@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Website (`web/`, Astro and Tailwind CSS v4) with an interactive install terminal, a page per skill generated from `SKILL.md`, docs, and the changelog. Navigation runs client-side without full reloads. Deployed to GitHub Pages by `.github/workflows/pages.yml`.
+- Website motion effects in the style of React Bits, written without React and kept monochrome: a dot field behind the hero that reacts to the pointer, decrypted and blur-in headings, spotlight skill cards, scroll reveal, magnetic buttons, and a click spark. All of it turns off for visitors who prefer reduced motion.
 - `.gitattributes` and `.editorconfig` that keep every text file on LF line endings.
 
 ### Changed

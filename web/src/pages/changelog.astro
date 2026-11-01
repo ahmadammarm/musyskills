@@ -1,6 +1,7 @@
 ---
 import { getEntry, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import BlurText from '../components/BlurText.astro';
 import { REPO } from '../lib/site';
 
 const entry = await getEntry('changelog', 'changelog');
@@ -10,7 +11,7 @@ const { Content } = await render(entry);
 
 <Base title="Changelog" description="Every Musyskills release: new skills, CLI changes, and fixes.">
   <div class="mx-auto max-w-[760px] px-4 py-14 sm:px-6 lg:py-16">
-    <h1 class="text-[36px] leading-tight font-semibold tracking-[-0.04em]">Changelog</h1>
+    <BlurText text="Changelog" class="text-[36px] leading-tight font-semibold tracking-[-0.04em]" />
     <p class="mt-4 text-[16px] leading-7 text-muted">
       Every release, newest first. Release notes are also on <a href={`${REPO}/releases`} class="text-fg underline decoration-line-strong underline-offset-4 hover:decoration-fg">GitHub</a>.
     </p>

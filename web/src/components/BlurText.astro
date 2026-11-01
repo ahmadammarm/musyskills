@@ -1,0 +1,26 @@
+---
+// Heading whose words fade in from a blur, one after another (CSS only).
+// Screen readers read the heading normally; without motion it renders static.
+interface Props {
+  text: string;
+  as?: 'h1' | 'h2' | 'p';
+  class?: string;
+  /** Delay before the first word, in ms. */
+  delay?: number;
+}
+const { text, as: Tag = 'h1', class: className, delay = 0 } = Astro.props;
+const words = text.split(' ');
+---
+
+<Tag class={className}>
+  {
+    words.map((word, i) => (
+      <>
+        <span class="blur-word" style={`--i:${i};--d:${delay}ms`}>
+          {word}
+        </span>
+        {i < words.length - 1 && ' '}
+      </>
+    ))
+  }
+</Tag>

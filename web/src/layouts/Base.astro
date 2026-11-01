@@ -41,6 +41,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       // again after each client-side navigation, which replaces <html> attributes.
       (() => {
         const apply = (doc) => {
+          doc.documentElement.classList.add('js');
           try {
             const saved = localStorage.getItem('theme');
             if (saved === 'light' || saved === 'dark') doc.documentElement.dataset.theme = saved;
@@ -67,6 +68,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <slot />
     </main>
     <Footer />
+    <script>
+      import '../scripts/effects';
+    </script>
     <script>
       // Copy buttons: <button data-copy="text">. The label switches to "Copied".
       document.addEventListener('click', async (event) => {
