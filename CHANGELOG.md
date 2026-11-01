@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.0.3] - 2026-11-01
+
+### Fixed
+- Website feels faster on phones and tablets. The dot field behind the home page heading is drawn once instead of animating, which frees most of the main thread while the page is open. The heading fades up without the blur filter and its scramble finishes sooner. Content that appears on scroll fades in twice as fast, starts just before it reaches the screen, and no longer waits in turn on touch screens. Desktop keeps the full effects.
+- Website pages load before you tap: links are prefetched as they scroll into view, and the fade between pages is shorter.
+
 ## [v2.0.2] - 2026-11-01
 
 ### Added
