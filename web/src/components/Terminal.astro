@@ -15,8 +15,8 @@ const data = JSON.stringify({ tools, skills });
   data-terminal={data}
   class="overflow-hidden rounded-xl border border-term-line bg-term text-term-fg shadow-[0_1px_0_0_rgba(255,255,255,0.06)_inset,0_24px_48px_-24px_rgba(0,0,0,0.45)]"
 >
-  <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-term-line px-2 py-2">
-    <div role="group" aria-label="Agent tool" class="flex flex-wrap gap-0.5">
+  <div class="flex items-center gap-3 border-b border-term-line px-2 py-2">
+    <div role="group" aria-label="Agent tool" class="scroll-fade flex min-w-0 flex-1 gap-0.5 overflow-x-auto">
       {
         toolNames.map((tool, i) => (
           <button
@@ -24,14 +24,14 @@ const data = JSON.stringify({ tools, skills });
             data-tool={tool}
             aria-pressed={i === 0 ? 'true' : 'false'}
             title={toolLabels[tool]}
-            class="rounded-md px-2.5 py-1 font-mono text-[12.5px] text-term-dim transition-colors hover:text-term-fg aria-pressed:bg-term-raised aria-pressed:text-term-fg"
+            class="shrink-0 rounded-md px-2.5 py-1 font-mono text-[12.5px] text-term-dim transition-colors hover:text-term-fg aria-pressed:bg-term-raised aria-pressed:text-term-fg"
           >
             {tool}
           </button>
         ))
       }
     </div>
-    <div role="group" aria-label="Install scope" class="flex rounded-md border border-term-line p-0.5">
+    <div role="group" aria-label="Install scope" class="flex shrink-0 rounded-md border border-term-line p-0.5">
       {
         ['project', 'global'].map((scope, i) => (
           <button
@@ -56,7 +56,7 @@ const data = JSON.stringify({ tools, skills });
   </div>
 
   <div class="flex items-center gap-2 border-t border-term-line px-2 py-2">
-    <div role="group" aria-label="Skill" class="flex min-w-0 flex-1 gap-0.5 overflow-x-auto [scrollbar-width:none]">
+    <div role="group" aria-label="Skill" class="scroll-fade flex min-w-0 flex-1 gap-0.5 overflow-x-auto">
       {
         [...featured, '--all'].map((skill, i) => (
           <button

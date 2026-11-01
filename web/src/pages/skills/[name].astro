@@ -19,8 +19,8 @@ const hint = skill.data['argument-hint'];
 ---
 
 <Base title={skill.id} description={summary(skill.data.description)}>
-  <div class="mx-auto max-w-[1120px] px-4 sm:px-6">
-    <div class="grid gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_200px] lg:gap-16 lg:py-16">
+  <div class="container-site">
+    <div class="grid grid-cols-1 gap-12 py-12 sm:py-14 lg:grid-cols-[minmax(0,1fr)_200px] lg:gap-16 lg:py-16">
       <article class="min-w-0">
         <nav aria-label="Breadcrumb" class="font-mono text-[13px] text-muted">
           <a href={url('#skills')} class="hover:text-fg">skills</a>
@@ -28,13 +28,13 @@ const hint = skill.data['argument-hint'];
           <span class="text-fg" aria-current="page">{skill.id}</span>
         </nav>
 
-        <h1 class="mt-5 font-mono text-[30px] leading-tight font-medium tracking-[-0.03em] sm:text-[36px]">
+        <h1 class="mt-5 font-mono text-[clamp(1.625rem,1.3rem+1.6vw,2.25rem)] leading-tight font-medium tracking-[-0.03em] [overflow-wrap:anywhere]">
           <span class="sr-only">{skill.id}</span>
           <span aria-hidden="true" data-decrypt="700">{skill.id}</span>
         </h1>
         <p class="mt-4 max-w-[42rem] text-[16px] leading-7 text-muted">{skill.data.description}</p>
 
-        <div class="mt-8 grid gap-3">
+        <div class="mt-8 grid grid-cols-1 gap-3">
           <Command lines={[`npx musyskills add ${skill.id}`]} />
           <dl class="flex flex-wrap gap-x-8 gap-y-2 pt-1 text-[13px]">
             <div class="flex gap-2">
@@ -60,7 +60,7 @@ const hint = skill.data['argument-hint'];
           <Content />
         </div>
 
-        <nav aria-label="More skills" data-spotlight-group data-reveal class="mt-16 grid gap-3 border-t border-line pt-8 sm:grid-cols-2">
+        <nav aria-label="More skills" data-spotlight-group data-reveal class="mt-16 grid grid-cols-1 gap-3 border-t border-line pt-8 sm:grid-cols-2">
           {
             prev ? (
               <a href={url(`skills/${prev.id}/`)} class="spotlight overflow-hidden rounded-lg border border-line px-4 py-3 transition-colors hover:border-line-strong">

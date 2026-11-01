@@ -252,8 +252,11 @@ function spark(x: number, y: number) {
   setTimeout(() => svg.remove(), 500);
 }
 
+// Desktop only: a mouse on a screen at least 1024px wide.
+const desktop = matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1024px)');
+
 document.addEventListener('pointerdown', (e) => {
-  if (e.button !== 0 || prefersReduced()) return;
+  if (e.button !== 0 || e.pointerType !== 'mouse' || !desktop.matches || prefersReduced()) return;
   spark(e.clientX, e.clientY);
 });
 

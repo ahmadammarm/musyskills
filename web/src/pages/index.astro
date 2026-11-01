@@ -24,7 +24,7 @@ const count = words[all.length] ?? String(all.length);
       aria-hidden="true"
       class="pointer-events-none absolute inset-0 size-full [mask-image:radial-gradient(ellipse_75%_70%_at_50%_45%,#000_35%,transparent_100%)]"
     ></canvas>
-    <div class="relative mx-auto grid max-w-[1120px] gap-12 px-4 pt-16 pb-20 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.12fr)] lg:items-center lg:gap-14 lg:pt-24 lg:pb-28">
+    <div class="container-site relative grid grid-cols-1 gap-12 pt-14 pb-16 sm:pt-16 sm:pb-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.12fr)] lg:items-center lg:gap-14 lg:pt-24 lg:pb-28 min-[1920px]:gap-20 [@media(max-height:520px)]:pt-10 [@media(max-height:520px)]:pb-12">
       <div>
         <p class="font-mono text-[13px] tracking-[-0.01em] text-muted">
           <span class="sr-only">Musyskills: Must be yours skills</span>
@@ -33,9 +33,9 @@ const count = words[all.length] ?? String(all.length);
         <BlurText
           text="The agent skills every developer should own."
           delay={150}
-          class="mt-5 text-[40px] leading-[1.02] font-semibold tracking-[-0.045em] text-balance sm:text-[56px]"
+          class="mt-5 text-[clamp(2.25rem,1.89rem+1.79vw,4.25rem)] leading-[1.02] font-semibold tracking-[-0.045em] text-balance [@media(max-height:520px)]:text-[2.5rem]"
         />
-        <p class="mt-6 max-w-[34rem] text-[17px] leading-7 text-pretty text-muted">
+        <p class="mt-6 max-w-[34rem] text-[16px] leading-7 text-pretty text-muted sm:text-[17px] min-[1920px]:max-w-[38rem] min-[1920px]:text-[18px] min-[1920px]:leading-8">
           {count} Markdown workflows for software engineers, web developers, and anyone who ships code: review changes,
           draft pull requests, and release without skipping the safety checks. Install them into Claude Code, Codex,
           Cursor, or Antigravity with one command.
@@ -61,9 +61,9 @@ const count = words[all.length] ?? String(all.length);
   </section>
 
   <section id="skills" class="scroll-mt-14 border-b border-line">
-    <div class="mx-auto max-w-[1120px] px-4 py-20 sm:px-6">
+    <div class="container-site py-16 sm:py-20">
       <div data-reveal class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <h2 class="text-[28px] font-semibold tracking-[-0.035em]">Skills</h2>
+        <h2 class="text-[clamp(1.5rem,1.3rem+0.6vw,2rem)] font-semibold tracking-[-0.035em]">Skills</h2>
         <p class="max-w-[30rem] text-[14px] text-muted">
           Each skill is a single <code class="font-mono text-[13px] text-fg">SKILL.md</code> file. Read it before you
           install it, or <a href={`${REPO}/tree/main/skills`} class="text-fg underline decoration-line-strong underline-offset-4 hover:decoration-fg">browse the source</a>.
@@ -72,7 +72,7 @@ const count = words[all.length] ?? String(all.length);
 
       <div
         data-spotlight-group
-        class="spotlight-lines mt-10 grid gap-px overflow-hidden rounded-xl border border-line md:grid-cols-2 lg:grid-cols-4"
+        class="spotlight-lines mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-line md:grid-cols-2 lg:grid-cols-4"
       >
         {
           groups.map((group, i) => (
@@ -104,10 +104,10 @@ const count = words[all.length] ?? String(all.length);
   </section>
 
   <section>
-    <div class="mx-auto max-w-[1120px] px-4 py-20 sm:px-6">
-      <h2 data-reveal class="text-[28px] font-semibold tracking-[-0.035em]">Other ways to install</h2>
+    <div class="container-site py-16 sm:py-20">
+      <h2 data-reveal class="text-[clamp(1.5rem,1.3rem+0.6vw,2rem)] font-semibold tracking-[-0.035em]">Other ways to install</h2>
       <div data-reveal class="mt-10 divide-y divide-line border-y border-line">
-        <div class="grid gap-4 py-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-10">
+        <div class="grid grid-cols-1 gap-4 py-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-10">
           <div>
             <h3 class="text-[15px] font-medium">Claude Code plugin</h3>
             <p class="mt-1.5 text-[14px] text-muted">
@@ -116,14 +116,14 @@ const count = words[all.length] ?? String(all.length);
           </div>
           <Command prompt="" lines={['/plugin marketplace add ahmadammarm/musyskills', '/plugin install musyskills@musyskills']} />
         </div>
-        <div class="grid gap-4 py-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-10">
+        <div class="grid grid-cols-1 gap-4 py-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-10">
           <div>
             <h3 class="text-[15px] font-medium">Every skill, every tool the project uses</h3>
             <p class="mt-1.5 text-[14px] text-muted">The CLI detects your tools from the project and installs into each of their folders.</p>
           </div>
           <Command lines={['npx musyskills add --all']} />
         </div>
-        <div class="grid gap-4 py-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-10">
+        <div class="grid grid-cols-1 gap-4 py-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-10">
           <div>
             <h3 class="text-[15px] font-medium">Copy the folder yourself</h3>
             <p class="mt-1.5 text-[14px] text-muted">

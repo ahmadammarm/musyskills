@@ -16,10 +16,10 @@ const sections = [
 ---
 
 <Base title="Docs" description="Install, update, and remove Musyskills skills with the npm CLI, the Claude Code plugin, or by copying folders.">
-  <div class="mx-auto max-w-[1120px] px-4 sm:px-6">
-    <div class="grid gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_200px] lg:gap-16 lg:py-16">
+  <div class="container-site">
+    <div class="grid grid-cols-1 gap-12 py-12 sm:py-14 lg:grid-cols-[minmax(0,1fr)_200px] lg:gap-16 lg:py-16">
       <article class="min-w-0">
-        <BlurText text="Docs" class="text-[36px] leading-tight font-semibold tracking-[-0.04em]" />
+        <BlurText text="Docs" class="text-[clamp(2rem,1.7rem+1.2vw,2.5rem)] leading-tight font-semibold tracking-[-0.04em]" />
         <p class="mt-4 max-w-[40rem] text-[16px] leading-7 text-muted">
           Musyskills ships as an npm CLI and as a Claude Code plugin. Both install the same files from the
           repository's <code class="font-mono text-[14px] text-fg">skills/</code> folder.
@@ -35,13 +35,13 @@ const sections = [
           <h2 id="install">Install skills</h2>
           <p>Run these in your project folder. Name one or more skills, or pass <code>--all</code>.</p>
         </div>
-        <div class="mt-5 grid gap-2">
+        <div class="mt-5 grid grid-cols-1 gap-2">
           <Command lines={['npx musyskills list']} />
           <Command lines={['npx musyskills add pr-draft push-to-origin']} />
           <Command lines={['npx musyskills add --all --tool cursor']} />
         </div>
         <div class="doc">
-          <table>
+          <div class="table-scroll"><table>
             <thead><tr><th>Option</th><th>What it does</th></tr></thead>
             <tbody>
               <tr><td><code>--tool &lt;name&gt;</code></td><td><code>claude</code>, <code>codex</code>, <code>cursor</code>, or <code>antigravity</code>. Repeat it or separate with commas for several tools.</td></tr>
@@ -49,7 +49,7 @@ const sections = [
               <tr><td><code>--all</code></td><td>With <code>add</code>, install every skill.</td></tr>
               <tr><td><code>--force</code></td><td>Overwrite or remove a skill you edited, or one musyskills did not install.</td></tr>
             </tbody>
-          </table>
+          </table></div>
           <p>
             Without <code>--tool</code>, musyskills looks for each tool's files in the project, such as
             <code>.claude/</code>, <code>AGENTS.md</code>, <code>.cursor/</code>, or <code>.gemini/</code>, and installs
@@ -58,7 +58,7 @@ const sections = [
           </p>
 
           <h2 id="where-skills-go">Where skills go</h2>
-          <table>
+          <div class="table-scroll"><table>
             <thead><tr><th>Tool</th><th>Project</th><th>Global</th><th>Detected by</th></tr></thead>
             <tbody>
               {
@@ -72,12 +72,12 @@ const sections = [
                 ))
               }
             </tbody>
-          </table>
+          </table></div>
           <p>Codex and Antigravity share <code>.agents/skills/</code> in a project, so a skill is installed there once.</p>
 
           <h2 id="update-and-remove">Update and remove</h2>
         </div>
-        <div class="mt-5 grid gap-2">
+        <div class="mt-5 grid grid-cols-1 gap-2">
           <Command lines={['npx musyskills@latest update']} />
           <Command lines={['npx musyskills remove pr-draft']} />
           <Command lines={['npx musyskills doctor']} />
@@ -93,7 +93,7 @@ const sections = [
             Each skills folder gets a <code>.musyskills.json</code> file that records which skills musyskills installed and
             a hash of their files. musyskills uses it to decide what it may touch:
           </p>
-          <table>
+          <div class="table-scroll"><table>
             <thead><tr><th>State</th><th>Meaning</th><th>add and update</th></tr></thead>
             <tbody>
               <tr><td><code>current</code></td><td>Same as this version</td><td>Left as is</td></tr>
@@ -101,7 +101,7 @@ const sections = [
               <tr><td><code>modified</code></td><td>You edited it after install</td><td>Skipped unless <code>--force</code></td></tr>
               <tr><td><code>foreign</code></td><td>Not installed by musyskills</td><td>Skipped unless <code>--force</code></td></tr>
             </tbody>
-          </table>
+          </table></div>
 
           <h2 id="claude-code-plugin">Claude Code plugin</h2>
           <p>Run these inside Claude Code to install every skill as one plugin:</p>

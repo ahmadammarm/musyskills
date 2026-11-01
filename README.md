@@ -1,6 +1,6 @@
-# Musyskills
+# Musyskills - Must be Yours Skills
 
-**Musyskills** stands for **Must be Yours Skills**: the AI agent skills every software developer, web developer, and software engineer should have in their toolkit.
+**Musyskills (Must be Yours Skills)** is an open-source collection of AI agent skills that every software developer, web developer, and software engineer should have in their toolkit.
 
 Each skill is a single `SKILL.md` file of plain Markdown that teaches your coding agent a workflow you already do every day: reviewing changes, drafting pull requests, committing safely, and cutting releases. The agent follows the same steps and safety checks every time, instead of improvising. Skills work with Claude Code, Codex, Cursor, and Antigravity.
 

@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Website: no more sideways scrolling on phones. Command blocks and long inline code on the home page, skill pages, docs, and changelog now stay inside the screen.
+- Website: long skill names wrap on small screens, and docs tables scroll inside their own box.
+
+### Changed
+- Website layout adapts to every screen size: content widens to 1320px from 1920px and 1440px from 2400px, headings scale fluidly, the terminal's tool and skill rows scroll in one line on phones, and short landscape screens get a smaller heading and a header that does not stick.
+- The click spark only appears on desktop (a mouse on a screen at least 1024px wide).
+- README title is now "Musyskills - Must be Yours Skills", and it opens with "Musyskills (Must be Yours Skills) is an open-source collection of AI agent skills".
+
 ## [v2.0.0] - 2026-11-01
 
 ### Added
