@@ -1,0 +1,27 @@
+---
+// A copyable shell or chat command. Pass several lines to show them together;
+// the copy button copies all of them.
+interface Props {
+  lines: string[];
+  prompt?: string;
+  class?: string;
+}
+const { lines, prompt = '$', class: className = '' } = Astro.props;
+---
+
+<div class:list={['flex items-start gap-3 rounded-lg border border-line bg-subtle py-2.5 pr-2 pl-3.5', className]}>
+  <code class="min-w-0 flex-1 overflow-x-auto py-0.5 font-mono text-[13px] leading-6">
+    {
+      lines.map((line) => (
+        <span class="block whitespace-pre">{prompt && <span class="text-muted select-none">{prompt} </span>}{line}</span>
+      ))
+    }
+  </code>
+  <button
+    type="button"
+    data-copy={lines.join('\n')}
+    class="shrink-0 rounded-md border border-line bg-bg px-2 py-1 font-mono text-[12px] text-muted transition-colors hover:border-line-strong hover:text-fg"
+  >
+    <span data-copy-label>Copy</span>
+  </button>
+</div>

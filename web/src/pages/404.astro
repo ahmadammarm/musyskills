@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import Command from '../components/Command.astro';
+import { url } from '../lib/site';
+---
+
+<Base title="Page not found">
+  <div class="mx-auto max-w-[640px] px-4 py-24 sm:px-6">
+    <p class="font-mono text-[13px] text-muted">404</p>
+    <h1 class="mt-3 text-[32px] font-semibold tracking-[-0.04em]">This page does not exist.</h1>
+    <p class="mt-4 text-[16px] text-muted">The link may be out of date. List every skill from your terminal instead:</p>
+    <Command class="mt-6" lines={['npx musyskills list']} />
+    <a href={url()} class="mt-8 inline-flex h-10 items-center rounded-md border border-line px-4 text-[14px] font-medium transition-colors hover:border-line-strong hover:bg-subtle">
+      Go to the home page
+    </a>
+  </div>
+</Base>

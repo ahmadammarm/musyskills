@@ -1,0 +1,126 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Terminal from '../components/Terminal.astro';
+import Command from '../components/Command.astro';
+import { REPO, stages, summary, url } from '../lib/site';
+
+const all = (await getCollection('skills')).sort((a, b) => a.id.localeCompare(b.id));
+const placed = new Set(stages.flatMap((s) => s.skills));
+const groups = [
+  ...stages.map((s) => ({ ...s, items: s.skills.map((id) => all.find((e) => e.id === id)).filter((e) => e !== undefined) })),
+  { name: 'Other', blurb: 'Everything else', items: all.filter((e) => !placed.has(e.id)) },
+].filter((g) => g.items.length > 0);
+
+const words = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve'];
+const count = words[all.length] ?? String(all.length);
+---
+
+<Base>
+  <section class="border-b border-line">
+    <div class="mx-auto grid max-w-[1120px] gap-12 px-4 pt-16 pb-20 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.12fr)] lg:items-center lg:gap-14 lg:pt-24 lg:pb-28">
+      <div>
+        <p class="font-mono text-[13px] tracking-[-0.01em] text-muted">
+          <span class="text-fg">Mus</span>t be <span class="text-fg">y</span>ours <span class="text-fg">skills</span>
+        </p>
+        <h1 class="mt-5 text-[40px] leading-[1.02] font-semibold tracking-[-0.045em] text-balance sm:text-[56px]">
+          The agent skills every developer should own.
+        </h1>
+        <p class="mt-6 max-w-[34rem] text-[17px] leading-7 text-pretty text-muted">
+          {count} Markdown workflows for software engineers, web developers, and anyone who ships code: review changes,
+          draft pull requests, and release without skipping the safety checks. Install them into Claude Code, Codex,
+          Cursor, or Antigravity with one command.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a
+            href="#skills"
+            class="inline-flex h-10 items-center rounded-md bg-fg px-4 text-[14px] font-medium text-bg transition-opacity hover:opacity-85"
+            >Browse skills</a
+          >
+          <a
+            href={url('docs/')}
+            class="inline-flex h-10 items-center rounded-md border border-line px-4 text-[14px] font-medium text-fg transition-colors hover:border-line-strong hover:bg-subtle"
+            >Read the docs</a
+          >
+        </div>
+        <p class="mt-10 font-mono text-[12px] text-muted">Requires Node.js 24 or later · Works offline after install</p>
+      </div>
+      <Terminal skills={all.map((s) => s.id)} />
+    </div>
+  </section>
+
+  <section id="skills" class="scroll-mt-14 border-b border-line">
+    <div class="mx-auto max-w-[1120px] px-4 py-20 sm:px-6">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <h2 class="text-[28px] font-semibold tracking-[-0.035em]">Skills</h2>
+        <p class="max-w-[30rem] text-[14px] text-muted">
+          Each skill is a single <code class="font-mono text-[13px] text-fg">SKILL.md</code> file. Read it before you
+          install it, or <a href={`${REPO}/tree/main/skills`} class="text-fg underline decoration-line-strong underline-offset-4 hover:decoration-fg">browse the source</a>.
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-2 lg:grid-cols-4">
+        {
+          groups.map((group) => (
+            <div class="flex flex-col bg-bg">
+              <div class="border-b border-line px-5 py-3">
+                <h3 class="font-mono text-[12px] tracking-[0.08em] text-fg uppercase">{group.name}</h3>
+                <p class="mt-0.5 text-[12.5px] text-muted">{group.blurb}</p>
+              </div>
+              <ul class="flex flex-1 flex-col">
+                {group.items.map((skill) => (
+                  <li class="border-b border-line last:border-b-0">
+                    <a href={url(`skills/${skill.id}/`)} class="group block px-5 py-4 transition-colors hover:bg-subtle">
+                      <span class="flex items-center justify-between gap-2 font-mono text-[14px] font-medium text-fg">
+                        {skill.id}
+                        <span aria-hidden="true" class="text-muted opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100">
+                          →
+                        </span>
+                      </span>
+                      <span class="mt-1.5 line-clamp-3 block text-[13.5px] leading-[1.55] text-muted">{summary(skill.data.description)}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="mx-auto max-w-[1120px] px-4 py-20 sm:px-6">
+      <h2 class="text-[28px] font-semibold tracking-[-0.035em]">Other ways to install</h2>
+      <div class="mt-10 divide-y divide-line border-y border-line">
+        <div class="grid gap-4 py-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-10">
+          <div>
+            <h3 class="text-[15px] font-medium">Claude Code plugin</h3>
+            <p class="mt-1.5 text-[14px] text-muted">
+              Installs every skill at once. Skills are called as <code class="font-mono text-[13px] text-fg">/musyskills:pr-draft</code>.
+            </p>
+          </div>
+          <Command prompt="" lines={['/plugin marketplace add ahmadammarm/musyskills', '/plugin install musyskills@musyskills']} />
+        </div>
+        <div class="grid gap-4 py-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-10">
+          <div>
+            <h3 class="text-[15px] font-medium">Every skill, every tool the project uses</h3>
+            <p class="mt-1.5 text-[14px] text-muted">The CLI detects your tools from the project and installs into each of their folders.</p>
+          </div>
+          <Command lines={['npx musyskills add --all']} />
+        </div>
+        <div class="grid gap-4 py-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:gap-10">
+          <div>
+            <h3 class="text-[15px] font-medium">Copy the folder yourself</h3>
+            <p class="mt-1.5 text-[14px] text-muted">
+              No Node.js needed. Copy a folder from <code class="font-mono text-[13px] text-fg">skills/</code> into your tool's skills directory.
+            </p>
+          </div>
+          <p class="self-center text-[14px] text-muted">
+            <a href={url('docs/#where-skills-go')} class="text-fg underline decoration-line-strong underline-offset-4 hover:decoration-fg">See where each tool looks for skills</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

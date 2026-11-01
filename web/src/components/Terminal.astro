@@ -1,0 +1,165 @@
+---
+// Interactive preview of `npx musyskills add`. The output mirrors what the CLI
+// prints, and the folders come from the CLI's own tool table.
+import { toolLabels, toolNames, tools } from '../lib/site';
+
+interface Props {
+  skills: string[];
+}
+const { skills } = Astro.props;
+const featured = ['pr-draft', 'push-to-origin', 'release'].filter((s) => skills.includes(s));
+const data = JSON.stringify({ tools, skills });
+---
+
+<div
+  data-terminal={data}
+  class="overflow-hidden rounded-xl border border-term-line bg-term text-term-fg shadow-[0_1px_0_0_rgba(255,255,255,0.06)_inset,0_24px_48px_-24px_rgba(0,0,0,0.45)]"
+>
+  <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-term-line px-2 py-2">
+    <div role="group" aria-label="Agent tool" class="flex flex-wrap gap-0.5">
+      {
+        toolNames.map((tool, i) => (
+          <button
+            type="button"
+            data-tool={tool}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+            title={toolLabels[tool]}
+            class="rounded-md px-2.5 py-1 font-mono text-[12.5px] text-term-dim transition-colors hover:text-term-fg aria-pressed:bg-term-raised aria-pressed:text-term-fg"
+          >
+            {tool}
+          </button>
+        ))
+      }
+    </div>
+    <div role="group" aria-label="Install scope" class="flex rounded-md border border-term-line p-0.5">
+      {
+        ['project', 'global'].map((scope, i) => (
+          <button
+            type="button"
+            data-scope={scope}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+            class="rounded-[5px] px-2 py-0.5 font-mono text-[12px] text-term-dim transition-colors hover:text-term-fg aria-pressed:bg-term-raised aria-pressed:text-term-fg"
+          >
+            {scope}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="relative">
+    <pre
+      class="min-h-[248px] px-4 pt-4 pb-3 font-mono text-[12.5px] leading-[22px] break-words whitespace-pre-wrap sm:h-[248px] sm:min-h-0 sm:overflow-hidden sm:text-[13.5px]"
+      aria-live="polite"><code data-output><span class="text-term-dim">$ </span>npx musyskills add pr-draft --tool claude
+<span class="text-term-dim">.claude/skills (claude)</span>
+  installed pr-draft</code><span data-caret class="ml-px inline-block h-[15px] w-[7px] translate-y-[2px] bg-term-fg motion-safe:animate-[blink_1.1s_steps(1)_infinite]"></span></pre>
+  </div>
+
+  <div class="flex items-center gap-2 border-t border-term-line px-2 py-2">
+    <div role="group" aria-label="Skill" class="flex min-w-0 flex-1 gap-0.5 overflow-x-auto [scrollbar-width:none]">
+      {
+        [...featured, '--all'].map((skill, i) => (
+          <button
+            type="button"
+            data-skill={skill}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+            class="shrink-0 rounded-md px-2.5 py-1 font-mono text-[12.5px] text-term-dim transition-colors hover:text-term-fg aria-pressed:bg-term-raised aria-pressed:text-term-fg"
+          >
+            {skill}
+          </button>
+        ))
+      }
+    </div>
+    <button
+      type="button"
+      data-copy="npx musyskills add pr-draft --tool claude"
+      data-terminal-copy
+      class="shrink-0 rounded-md border border-term-line px-2.5 py-1 font-mono text-[12px] text-term-fg transition-colors hover:border-term-dim"
+    >
+      <span data-copy-label>Copy</span>
+    </button>
+  </div>
+</div>
+
+<style>
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  type Tool = { project: string; global: string };
+  type Data = { tools: Record<string, Tool>; skills: string[] };
+
+  // Runs on the first load and after every client-side navigation back to a
+  // page with a terminal; the flag keeps a terminal from being wired twice.
+  document.addEventListener('astro:page-load', () => {
+    for (const root of document.querySelectorAll<HTMLElement>('[data-terminal]:not([data-ready])')) {
+      root.dataset.ready = '';
+      const data: Data = JSON.parse(root.dataset.terminal ?? '{}');
+      const output = root.querySelector<HTMLElement>('[data-output]')!;
+      const copy = root.querySelector<HTMLButtonElement>('[data-terminal-copy]')!;
+      const state: Record<string, string> = { tool: 'claude', scope: 'project', skill: 'pr-draft' };
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+      let run = 0;
+
+      const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+      const command = () =>
+        ['npx musyskills add', state.skill, `--tool ${state.tool}`, state.scope === 'global' ? '--global' : '']
+          .filter(Boolean)
+          .join(' ');
+
+      // Same shape as the CLI's report: folder (tools), then one line per skill.
+      const result = () => {
+        const t = data.tools[state.tool];
+        const dir = state.scope === 'global' ? `~/${t.global}` : t.project;
+        const names = state.skill === '--all' ? data.skills : [state.skill];
+        return [
+          `<span class="text-term-dim">${esc(dir)} (${state.tool})</span>`,
+          ...names.map((n) => `  installed ${esc(n)}`),
+        ];
+      };
+
+      const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+      async function render() {
+        const id = ++run;
+        const cmd = command();
+        copy.dataset.copy = cmd;
+        const prompt = '<span class="text-term-dim">$ </span>';
+        const lines = result();
+        if (reduced.matches) {
+          output.innerHTML = `${prompt}${esc(cmd)}\n${lines.join('\n')}`;
+          return;
+        }
+        for (let i = 0; i <= cmd.length; i += 2) {
+          if (id !== run) return;
+          output.innerHTML = prompt + esc(cmd.slice(0, i));
+          await wait(14);
+        }
+        output.innerHTML = prompt + esc(cmd);
+        await wait(180);
+        for (const line of lines) {
+          if (id !== run) return;
+          output.innerHTML += '\n' + line;
+          await wait(45);
+        }
+      }
+
+      root.addEventListener('click', (event) => {
+        const button = (event.target as Element).closest<HTMLButtonElement>('[data-tool],[data-scope],[data-skill]');
+        if (!button) return;
+        const key = button.dataset.tool ? 'tool' : button.dataset.scope ? 'scope' : 'skill';
+        const value = button.dataset[key]!;
+        if (state[key] === value) return;
+        state[key] = value;
+        for (const b of root.querySelectorAll<HTMLButtonElement>(`[data-${key}]`)) {
+          b.setAttribute('aria-pressed', String(b.dataset[key] === value));
+        }
+        render();
+      });
+    }
+  });
+</script>

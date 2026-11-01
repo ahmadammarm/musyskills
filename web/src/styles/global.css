@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Monochrome tokens. Light is the default; dark follows the system unless the
+   visitor picked a theme (stored as data-theme on <html>). */
+:root {
+  --bg: #ffffff;
+  --bg-subtle: #fafafa;
+  --line: #ebebeb;
+  --line-strong: #d6d6d6;
+  --muted: #6b6b6b;
+  --fg: #0a0a0a;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0a0a0a;
+    --bg-subtle: #111111;
+    --line: #242424;
+    --line-strong: #363636;
+    --muted: #a0a0a0;
+    --fg: #ededed;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0a0a0a;
+  --bg-subtle: #111111;
+  --line: #242424;
+  --line-strong: #363636;
+  --muted: #a0a0a0;
+  --fg: #ededed;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-subtle: var(--bg-subtle);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-muted: var(--muted);
+  --color-fg: var(--fg);
+
+  /* The terminal stays dark in both themes. */
+  --color-term: #0a0a0a;
+  --color-term-raised: #161616;
+  --color-term-line: #262626;
+  --color-term-fg: #ededed;
+  --color-term-dim: #8f8f8f;
+
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--fg);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply font-sans text-[15px] leading-relaxed;
+  }
+  ::selection {
+    background: var(--fg);
+    color: var(--bg);
+  }
+  :focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* Long-form text: rendered SKILL.md files, the docs page and the changelog. */
+@layer components {
+  .doc {
+    @apply text-[15px] leading-7 text-fg;
+  }
+  .doc > :first-child {
+    @apply mt-0;
+  }
+  .doc h1 {
+    @apply sr-only;
+  }
+  .doc h2 {
+    @apply mt-14 mb-4 scroll-mt-24 border-t border-line pt-8 text-[22px] font-semibold tracking-[-0.03em];
+  }
+  .doc h3 {
+    @apply mt-8 mb-3 scroll-mt-24 text-[16px] font-semibold tracking-[-0.01em];
+  }
+  .doc p {
+    @apply my-4 text-muted;
+  }
+  .doc ul,
+  .doc ol {
+    @apply my-4 space-y-2 pl-5 text-muted;
+  }
+  .doc ul {
+    @apply list-disc marker:text-line-strong;
+  }
+  .doc ol {
+    @apply list-decimal marker:font-mono marker:text-[13px] marker:text-muted;
+  }
+  .doc li > ul,
+  .doc li > ol {
+    @apply mt-2;
+  }
+  .doc strong {
+    @apply font-medium text-fg;
+  }
+  .doc a {
+    @apply text-fg underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-fg;
+  }
+  .doc code {
+    @apply rounded-[5px] border border-line bg-subtle px-[0.35em] py-[0.1em] font-mono text-[0.86em] text-fg;
+  }
+  .doc pre {
+    @apply my-5 overflow-x-auto rounded-lg border border-line bg-subtle p-4 font-mono text-[13px] leading-6;
+  }
+  .doc pre code {
+    @apply border-0 bg-transparent p-0 text-[1em];
+  }
+  .doc blockquote {
+    @apply my-5 border-l-2 border-fg pl-4 text-fg;
+  }
+  .doc blockquote p {
+    @apply text-fg;
+  }
+  .doc table {
+    @apply my-5 w-full border-collapse text-left text-[14px];
+  }
+  .doc th {
+    @apply border-b border-line-strong py-2 pr-4 font-mono text-[12px] font-normal tracking-wide text-muted uppercase;
+  }
+  .doc td {
+    @apply border-b border-line py-2.5 pr-4 align-top text-muted;
+  }
+  .doc hr {
+    @apply my-10 border-line;
+  }
+}

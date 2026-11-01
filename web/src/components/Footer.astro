@@ -1,0 +1,16 @@
+---
+import { NPM, REPO, url } from '../lib/site';
+---
+
+<footer class="border-t border-line">
+  <div
+    class="mx-auto flex max-w-[1120px] flex-col gap-3 px-4 py-8 font-mono text-[12px] text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6"
+  >
+    <p>Musyskills · Must be yours skills · MIT License</p>
+    <ul class="flex gap-5">
+      <li><a href={REPO} class="transition-colors hover:text-fg">GitHub</a></li>
+      <li><a href={NPM} class="transition-colors hover:text-fg">npm</a></li>
+      <li><a href={url('changelog/')} class="transition-colors hover:text-fg">Changelog</a></li>
+    </ul>
+  </div>
+</footer>

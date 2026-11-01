@@ -1,0 +1,43 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { REPO } from '../lib/site';
+
+const entry = await getEntry('changelog', 'changelog');
+if (!entry) throw new Error('CHANGELOG.md was not found in the repository root.');
+const { Content } = await render(entry);
+---
+
+<Base title="Changelog" description="Every Musyskills release: new skills, CLI changes, and fixes.">
+  <div class="mx-auto max-w-[760px] px-4 py-14 sm:px-6 lg:py-16">
+    <h1 class="text-[36px] leading-tight font-semibold tracking-[-0.04em]">Changelog</h1>
+    <p class="mt-4 text-[16px] leading-7 text-muted">
+      Every release, newest first. Release notes are also on <a href={`${REPO}/releases`} class="text-fg underline decoration-line-strong underline-offset-4 hover:decoration-fg">GitHub</a>.
+    </p>
+    <div class="doc changelog mt-2">
+      <Content />
+    </div>
+  </div>
+</Base>
+
+<style>
+  /* The file opens with a title and a Keep a Changelog note that the page header replaces. */
+  .changelog :global(h1 + p),
+  .changelog :global(h1 + p + p) {
+    display: none;
+  }
+  .changelog :global(h2) {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .changelog :global(h3) {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+</style>
