@@ -3,3 +3,5 @@ node_modules/
 # Copied in by packages/cli/scripts/bundle.mjs during npm pack/publish
 packages/cli/skills/
 packages/cli/LICENSE
+# Local notes and secrets (for example npm recovery codes)
+*.txt
