@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Checks that every skill follows the repository format and that the README
 // and docs/skills.md list exactly the skills present in skills/.
-// Usage: node scripts/validate.mjs   (exit code 1 on any problem)
+// Usage: node scripts/validate.mjs   (Node 24+, exit code 1 on any problem)
 
 import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';

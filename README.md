@@ -23,7 +23,7 @@ For a comprehensive explanation of each skill's triggers, workflows, and rules, 
 
 ### Any tool (npm CLI, recommended)
 
-Install skills into Claude Code, Codex, Cursor, or Antigravity with one command (Node.js 18.17 or later):
+Install skills into Claude Code, Codex, Cursor, or Antigravity with one command (Node.js 24 or later):
 
 ```
 npx musyskills list                       # see the available skills

@@ -1,6 +1,6 @@
 # musyskills
 
-Install [Musyskills](https://github.com/ahmadammarm/musyskills) AI agent skills into Claude Code, Codex, Cursor, and Antigravity with one command. Requires Node.js 18.17 or later.
+Install [Musyskills](https://github.com/ahmadammarm/musyskills) AI agent skills into Claude Code, Codex, Cursor, and Antigravity with one command. Requires Node.js 24 or later.
 
 ```
 npx musyskills list

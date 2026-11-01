@@ -20,7 +20,7 @@ Each skill lives in its own folder: `skills/<skill-name>/SKILL.md`. Start from [
 
 ## Before opening a pull request
 
-Run the validator (Node 18 or later, no install needed):
+Run the validator (Node 24 or later, no install needed):
 
 ```
 node scripts/validate.mjs
