@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Checks that every skill follows the repository format and that the README
-// and docs/skills.md list exactly the skills present in skills/.
+// lists exactly the skills present in skills/. (The website builds its skill
+// pages from skills/ directly, so it cannot drift.)
 // Usage: node scripts/validate.mjs   (Node 24+, exit code 1 on any problem)
 
 import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
@@ -78,26 +79,17 @@ function compareLists(file, listed, what) {
   for (const n of new Set(dupes)) fail(file, `${what} lists "${n}" more than once`);
 }
 
+// README: the "Available skills" table has one row per skill, `| [name](link) | ... |`,
+// in alphabetical order.
 const readme = read('README.md');
-const available = readme.match(/^## Available Skills\n([\s\S]*?)(?=^## )/m);
+const available = readme.match(/^## Available skills\n([\s\S]*?)(?=^## )/im);
 if (!available) {
-  fail('README.md', 'missing "## Available Skills" section');
+  fail('README.md', 'missing "## Available skills" section');
 } else {
-  const listed = [...available[1].matchAll(/^- \*\*([\w-]+)\*\*/gm)].map((m) => m[1]);
-  compareLists('README.md', listed, 'Available Skills');
+  const listed = [...available[1].matchAll(/^\| \[([\w-]+)\]\(/gm)].map((m) => m[1]);
+  compareLists('README.md', listed, 'Available skills');
+  if (listed.join() !== [...listed].sort().join()) fail('README.md', 'Available skills must be in alphabetical order');
 }
-
-const docs = read('docs/skills.md');
-const docHeadings = [...docs.matchAll(/^### (\d+)\. ([\w-]+)\s*$/gm)];
-const docNames = docHeadings.map((m) => m[2]);
-compareLists('docs/skills.md', docNames, 'Directory Reference');
-docHeadings.forEach((m, i) => {
-  if (Number(m[1]) !== i + 1) fail('docs/skills.md', `"${m[2]}" is numbered ${m[1]}, expected ${i + 1}`);
-});
-const sorted = [...docNames].sort();
-if (docNames.join() !== sorted.join()) fail('docs/skills.md', 'skills must be listed in alphabetical order');
-checkSlashCommands('docs/skills.md', docs, skills);
-checkAgentReferences('docs/skills.md', docs);
 
 // Claude Code plugin manifests.
 function readJson(rel) {

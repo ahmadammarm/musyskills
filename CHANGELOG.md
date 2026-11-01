@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Website (`web/`, Astro and Tailwind CSS v4) with an interactive install terminal, a page per skill generated from `SKILL.md`, docs, and the changelog. Navigation runs client-side without full reloads. Deployed to GitHub Pages by `.github/workflows/pages.yml`.
 - `.gitattributes` and `.editorconfig` that keep every text file on LF line endings.
 
+### Changed
+- `README.md` explains the name, Musyskills = Must be Yours Skills, links each skill to its page on the website, and lists every tool's skills folder in one table.
+- The validator checks the README's "Available skills" table instead of `docs/skills.md`.
+
+### Removed
+- **Breaking:** `docs/skills.md`. Skill documentation now lives on the website, at `https://ahmadammarm.github.io/musyskills/skills/<skill-name>/`, generated from each `SKILL.md`. Update any links to the old file.
+
 ## [v1.4.1] - 2026-11-01
 
 ### Security

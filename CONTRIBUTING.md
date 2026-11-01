@@ -14,9 +14,10 @@ Each skill lives in its own folder: `skills/<skill-name>/SKILL.md`. Start from [
 
 ## When you add or rename a skill
 
-1. Add it to the "Available Skills" list in `README.md`.
-2. Add a section to `docs/skills.md`, keeping skills in alphabetical order and numbered from 1.
-3. Add an entry under `## [Unreleased]` in `CHANGELOG.md`.
+1. Add a row to the "Available skills" table in `README.md`, in alphabetical order, linking to `https://ahmadammarm.github.io/musyskills/skills/<skill-name>/`.
+2. Add an entry under `## [Unreleased]` in `CHANGELOG.md`.
+
+The website builds a page for every folder in `skills/` automatically, so there is no separate documentation file to update.
 
 ## Before opening a pull request
 
@@ -32,10 +33,10 @@ If you change the CLI in `packages/cli/`, also run its tests:
 npm test -w packages/cli
 ```
 
-The validator checks the frontmatter, required sections, slash commands, agent references, and that `skills/`, `README.md`, and `docs/skills.md` list the same skills. CI runs the same check on every pull request.
+The validator checks the frontmatter, required sections, slash commands, agent references, and that `README.md` lists every skill in `skills/`. CI runs the same check on every pull request.
 
 ## Pull request checklist
 
 - [ ] `node scripts/validate.mjs` passes
-- [ ] `README.md` and `docs/skills.md` are updated
+- [ ] `README.md` is updated
 - [ ] `CHANGELOG.md` has an entry under `[Unreleased]`
