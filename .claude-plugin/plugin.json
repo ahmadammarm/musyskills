@@ -1,0 +1,11 @@
+{
+  "name": "musyskills",
+  "version": "1.2.1",
+  "description": "AI agent skills that standardize common software development workflows.",
+  "author": {
+    "name": "ahmadammarm"
+  },
+  "homepage": "https://github.com/ahmadammarm/musyskills",
+  "repository": "https://github.com/ahmadammarm/musyskills",
+  "license": "MIT"
+}

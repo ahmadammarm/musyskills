@@ -1,0 +1,14 @@
+{
+  "name": "musyskills",
+  "description": "AI agent skills that standardize common software development workflows.",
+  "owner": {
+    "name": "ahmadammarm"
+  },
+  "plugins": [
+    {
+      "name": "musyskills",
+      "source": "./",
+      "description": "Skills for reviewing code, explaining changes, drafting PRs and PRDs, exploring projects, committing safely, and cutting releases."
+    }
+  ]
+}

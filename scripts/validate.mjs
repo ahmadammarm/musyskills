@@ -99,6 +99,51 @@ if (docNames.join() !== sorted.join()) fail('docs/skills.md', 'skills must be li
 checkSlashCommands('docs/skills.md', docs, skills);
 checkAgentReferences('docs/skills.md', docs);
 
+// Claude Code plugin manifests.
+function readJson(rel) {
+  if (!existsSync(join(root, rel))) {
+    fail(rel, 'file is missing');
+    return null;
+  }
+  try {
+    return JSON.parse(read(rel));
+  } catch (e) {
+    fail(rel, `invalid JSON: ${e.message}`);
+    return null;
+  }
+}
+
+const marketplace = readJson('.claude-plugin/marketplace.json');
+const plugin = readJson('.claude-plugin/plugin.json');
+if (marketplace) {
+  const rel = '.claude-plugin/marketplace.json';
+  if (!marketplace.name) fail(rel, 'missing "name"');
+  if (!marketplace.owner?.name) fail(rel, 'missing "owner.name"');
+  if (!Array.isArray(marketplace.plugins) || marketplace.plugins.length === 0) {
+    fail(rel, '"plugins" must be a non-empty array');
+  } else {
+    for (const [i, p] of marketplace.plugins.entries()) {
+      if (!p.name) fail(rel, `plugins[${i}] is missing "name"`);
+      if (!p.source) fail(rel, `plugins[${i}] is missing "source"`);
+      // plugin.json wins silently when both set a version, so keep it in one place.
+      if (p.version) fail(rel, `plugins[${i}] sets "version"; set it only in plugin.json`);
+    }
+    if (plugin && !marketplace.plugins.some((p) => p.name === plugin.name)) {
+      fail(rel, `no plugin entry named "${plugin.name}" (the name in plugin.json)`);
+    }
+  }
+}
+if (plugin) {
+  const rel = '.claude-plugin/plugin.json';
+  if (!plugin.name) fail(rel, 'missing "name"');
+  const latest = read('CHANGELOG.md').match(/^## \[v?(\d+\.\d+\.\d+)\]/m)?.[1];
+  if (!plugin.version) {
+    fail(rel, 'missing "version"');
+  } else if (latest && plugin.version !== latest) {
+    fail(rel, `version ${plugin.version} does not match the latest release in CHANGELOG.md (${latest})`);
+  }
+}
+
 if (errors.length) {
   console.error(`Validation failed with ${errors.length} problem(s):\n`);
   for (const e of errors) console.error(`  - ${e}`);

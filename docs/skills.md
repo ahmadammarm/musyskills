@@ -350,3 +350,52 @@ Shared agent files (`CLAUDE.md`, `AGENTS.md`, `.claude/skills/`, `.claude/settin
 **Output Format**
 
 At the end of the workflow, report: Staged Files (the list of files included in the commit), Commit (the short hash and approved message), Push Result (success confirmation with remote URL and branch, or the exact error if failed), and Excluded Files (any files unstaged due to the Exclusion List with the reason for each exclusion).
+
+---
+
+### 8. release
+
+**Directory**: `skills/release/`
+**Instruction file**: `skills/release/SKILL.md`
+
+**Purpose**
+
+Turn the work recorded under `[Unreleased]` in `CHANGELOG.md` into a published, tagged release. The skill picks the version from what actually changed, keeps the changelog and version files consistent, and never pushes or publishes without explicit confirmation.
+
+**Trigger Conditions**
+
+This skill activates when the user:
+- Runs the slash command `/release`.
+- Says "make a release," "cut a release," "bump the version," "tag a new version," or "publish v1.4.0."
+- Passes a version or a bump type (`patch`, `minor`, `major`) as an argument.
+
+**Pre-flight Checks**
+
+Before changing anything, the agent must:
+1. Stop if `git status` shows uncommitted changes.
+2. Confirm the current branch is the release branch (`main`, `master`, or the one named in a release guide).
+3. Run `git fetch origin` and stop if the local branch is behind its upstream.
+4. Read `CHANGELOG.md` and stop if `[Unreleased]` is empty.
+5. Find the latest version from tags and from the changelog, and ask the user if they disagree.
+6. Run the project's validation or test command and stop if it fails.
+7. List every file that carries a version number (for example `package.json`, `.claude-plugin/plugin.json`).
+
+**Workflow**
+
+1. Choose the version with Semantic Versioning: MAJOR for breaking changes or removals, MINOR for anything added, PATCH for fixes only. Internal-only changes do not raise the bump above PATCH. The largest change decides. Ask the user to confirm.
+2. Add a `## [vX.Y.Z] - YYYY-MM-DD` heading under `[Unreleased]`, update every version file, and re-run validation.
+3. Commit only those files using the repository's existing release commit style, and create an annotated tag.
+4. Show the commit, tag, target branch, and release notes draft, and wait for explicit confirmation before pushing.
+5. Push the branch and tag, publish release notes from the new changelog section (with `gh release create` when available) in the same format as previous releases, and report the status of any publish workflow triggered by the tag.
+
+**Rules**
+
+- Never release uncommitted work or from a branch that is behind its upstream.
+- Never push or publish without explicit user confirmation.
+- Never force-push, and never move or delete an existing tag.
+- Never invent changelog entries; release notes come only from `[Unreleased]` and the commits since the previous tag.
+- Never skip a failing validation or test command.
+
+**Output Format**
+
+At the end of the workflow, report: Version (and why that bump), Files Updated, Commit and Tag, Push Result, Release (URL or notes to publish manually), and Follow-up (status of any publish workflow).

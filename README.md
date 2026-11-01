@@ -15,10 +15,24 @@ Most AI coding assistants are capable of performing complex multi-step tasks, bu
 - **prd-generator**: Systematically interview the user to draft and save a structured Product Requirements Document.
 - **project-explanation**: Explore and explain a codebase interactively.
 - **push-to-origin**: Commit and push changes with mandatory safety checks.
+- **release**: Cut a versioned release from the changelog, with tag and release notes.
 
 For a comprehensive explanation of each skill's triggers, workflows, and rules, please see our [Skills Documentation](docs/skills.md).
 
 ## Installation and Usage
+
+### Claude Code (plugin, recommended)
+
+Install every skill as one plugin from this repository's marketplace. Run these inside Claude Code:
+
+```
+/plugin marketplace add ahmadammarm/musyskills
+/plugin install musyskills@musyskills
+```
+
+Skills from the plugin are namespaced, for example `/musyskills:pr-draft`. The short form `/pr-draft` also works when no other command uses the same name.
+
+To get new releases, run `/plugin marketplace update musyskills`, or enable auto-update for the marketplace under `/plugin` > Marketplaces.
 
 ### Antigravity CLI and Antigravity IDE
 
@@ -30,7 +44,7 @@ Antigravity natively supports the skill directory format used by this repository
    - Windows: `C:\Users\YOUR_USERNAME\.gemini\config\skills\`
 3. The agent will automatically trigger the matching skill when your request matches the description in the `SKILL.md` frontmatter. Skills can also be invoked explicitly using a slash command, for example `/project-explanation`.
 
-### Claude Code
+### Claude Code (manual copy)
 
 Claude Code natively supports skills placed in a `.claude/skills` directory. The files must also be named `SKILL.md`.
 
