@@ -1,0 +1,40 @@
+{
+  "name": "musyskills",
+  "version": "1.3.0",
+  "description": "Install Musyskills AI agent skills into Claude Code, Codex, Cursor, and Antigravity.",
+  "type": "module",
+  "bin": {
+    "musyskills": "bin/musyskills.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "skills"
+  ],
+  "scripts": {
+    "prepack": "node scripts/bundle.mjs",
+    "postpack": "node scripts/bundle.mjs --clean",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "keywords": [
+    "agent-skills",
+    "claude-code",
+    "codex",
+    "cursor",
+    "antigravity",
+    "skills",
+    "cli"
+  ],
+  "author": "ahmadammarm",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahmadammarm/musyskills.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/ahmadammarm/musyskills#readme",
+  "bugs": "https://github.com/ahmadammarm/musyskills/issues"
+}

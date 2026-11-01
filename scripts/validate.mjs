@@ -133,14 +133,17 @@ if (marketplace) {
     }
   }
 }
-if (plugin) {
-  const rel = '.claude-plugin/plugin.json';
-  if (!plugin.name) fail(rel, 'missing "name"');
-  const latest = read('CHANGELOG.md').match(/^## \[v?(\d+\.\d+\.\d+)\]/m)?.[1];
-  if (!plugin.version) {
-    fail(rel, 'missing "version"');
-  } else if (latest && plugin.version !== latest) {
-    fail(rel, `version ${plugin.version} does not match the latest release in CHANGELOG.md (${latest})`);
+if (plugin && !plugin.name) fail('.claude-plugin/plugin.json', 'missing "name"');
+
+// One version for the whole repository: plugin and npm package follow the
+// latest release in CHANGELOG.md.
+const latest = read('CHANGELOG.md').match(/^## \[v?(\d+\.\d+\.\d+)\]/m)?.[1];
+const cliPkg = readJson('packages/cli/package.json');
+for (const [rel, data] of [['.claude-plugin/plugin.json', plugin], ['packages/cli/package.json', cliPkg]]) {
+  if (!data) continue;
+  if (!data.version) fail(rel, 'missing "version"');
+  else if (latest && data.version !== latest) {
+    fail(rel, `version ${data.version} does not match the latest release in CHANGELOG.md (${latest})`);
   }
 }
 

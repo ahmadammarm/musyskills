@@ -1,0 +1,5 @@
+node_modules/
+*.tgz
+# Copied in by packages/cli/scripts/bundle.mjs during npm pack/publish
+packages/cli/skills/
+packages/cli/LICENSE

@@ -1,0 +1,11 @@
+{
+  "name": "musyskills-repo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "test": "npm test --workspaces"
+  }
+}

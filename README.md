@@ -21,9 +21,22 @@ For a comprehensive explanation of each skill's triggers, workflows, and rules, 
 
 ## Installation and Usage
 
-### Claude Code (plugin, recommended)
+### Any tool (npm CLI, recommended)
 
-Install every skill as one plugin from this repository's marketplace. Run these inside Claude Code:
+Install skills into Claude Code, Codex, Cursor, or Antigravity with one command (Node.js 18.17 or later):
+
+```
+npx musyskills list                       # see the available skills
+npx musyskills add pr-draft push-to-origin
+npx musyskills add --all                  # every skill
+npx musyskills update                     # update what you installed
+```
+
+The CLI detects which tool the project uses and installs into the right folder. Use `--tool claude|codex|cursor|antigravity` to choose, and `--global` to install for your user instead of the project. It never overwrites a skill you edited unless you pass `--force`. See [packages/cli/README.md](packages/cli/README.md) for every command and the folder each tool uses.
+
+### Claude Code (plugin)
+
+As an alternative to the CLI, Claude Code users can install every skill as one plugin from this repository's marketplace. Run these inside Claude Code:
 
 ```
 /plugin marketplace add ahmadammarm/musyskills

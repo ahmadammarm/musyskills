@@ -26,7 +26,13 @@ Run the validator (Node 18 or later, no install needed):
 node scripts/validate.mjs
 ```
 
-It checks the frontmatter, required sections, slash commands, agent references, and that `skills/`, `README.md`, and `docs/skills.md` list the same skills. CI runs the same check on every pull request.
+If you change the CLI in `packages/cli/`, also run its tests:
+
+```
+npm test -w packages/cli
+```
+
+The validator checks the frontmatter, required sections, slash commands, agent references, and that `skills/`, `README.md`, and `docs/skills.md` list the same skills. CI runs the same check on every pull request.
 
 ## Pull request checklist
 

@@ -15,3 +15,25 @@ jobs:
           node-version: 20
       - name: Validate skills
         run: node scripts/validate.mjs
+
+  test-cli:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [18, 22]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Test CLI
+        run: npm test -w packages/cli
+      - name: Pack and run from tarball
+        shell: bash
+        run: |
+          npm pack -w packages/cli --pack-destination "$RUNNER_TEMP"
+          mkdir "$RUNNER_TEMP/proj" && cd "$RUNNER_TEMP/proj"
+          npx -y --package "$(ls "$RUNNER_TEMP"/musyskills-*.tgz)" musyskills add --all --tool claude
+          test -f .claude/skills/release/SKILL.md
