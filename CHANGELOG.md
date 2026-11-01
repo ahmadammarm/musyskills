@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.2.0] - 2026-11-01
+
 ### Added
 - `project-explanation`: non-interactive mode. When the user asks for no questions, the skill ends the summary with a Recommended Next Step section and stops instead of waiting for input.
 
