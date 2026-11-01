@@ -4,6 +4,9 @@
 // before the next page swaps in. Reduced motion turns all motion off.
 
 const prefersReduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Phones and tablets: no hover, a finger instead of a mouse. Effects there are
+// lighter so the main thread stays free for scrolling.
+const isTouch = () => matchMedia('(hover: none), (pointer: coarse)').matches;
 
 /** The current foreground color as "r,g,b", for canvas drawing. */
 function readFg(): string {
@@ -134,7 +137,7 @@ function initDecrypt(signal: AbortSignal) {
     while (walker.nextNode()) nodes.push(walker.currentNode as Text);
     const originals = nodes.map((n) => n.data);
     const total = originals.join('').replace(/\s/g, '').length || 1;
-    const duration = Number(el.dataset.decrypt) || 900;
+    const duration = (Number(el.dataset.decrypt) || 900) * (isTouch() ? 0.55 : 1);
     const begin = performance.now();
     let raf = 0;
 
@@ -204,7 +207,9 @@ function initReveal(signal: AbortSignal) {
         io.unobserve(entry.target);
       }
     },
-    { rootMargin: '0px 0px -8% 0px', threshold: 0.1 },
+    // Start a little before the element enters the screen, so fast scrolling
+    // never shows an empty gap.
+    { rootMargin: '0px 0px 12% 0px', threshold: 0 },
   );
   items.forEach((el) => io.observe(el));
   signal.addEventListener('abort', () => io.disconnect());
@@ -269,7 +274,8 @@ document.addEventListener('astro:page-load', () => {
   const reduced = prefersReduced();
   initReveal(signal);
   initSpotlight(signal);
-  initDotField(signal, reduced);
+  // On touch screens the dot field is drawn once and stays still.
+  initDotField(signal, reduced || isTouch());
   if (reduced) return;
   initDecrypt(signal);
   initMagnet(signal);

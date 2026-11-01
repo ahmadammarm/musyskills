@@ -6,6 +6,9 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://ahmadammarm.github.io',
   base: '/musyskills',
+  // Fetch pages as soon as their links scroll into view, so a tap on a phone
+  // (which has no hover) does not wait for the network.
+  prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   fonts: [
     {
       provider: fontProviders.fontsource(),
