@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.0] - 2026-11-01
+
 ### Added
 - `musyskills` npm CLI (`packages/cli/`): `npx musyskills list | add | remove | update | doctor`. Installs skills into Claude Code, Codex, Cursor, or Antigravity, detects the tool from the project, supports `--global`, and records installs in `.musyskills.json` so it never overwrites skills the user edited unless `--force` is passed. Skills are bundled in the package.
 - CI tests the CLI on Linux, Windows, and macOS with Node 24 and 26, including a run from the packed tarball.
