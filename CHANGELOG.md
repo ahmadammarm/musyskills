@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.0.1] - 2026-11-01
+
 ### Fixed
 - Website: no more sideways scrolling on phones. Command blocks and long inline code on the home page, skill pages, docs, and changelog now stay inside the screen.
 - Website: long skill names wrap on small screens, and docs tables scroll inside their own box.
