@@ -195,7 +195,51 @@ When no PR template is found, use this structure: Title (concise imperative summ
 
 ---
 
-### 5. project-explanation
+### 5. prd-generator
+
+**Directory**: `skills/prd-generator/`
+**Instruction file**: `skills/prd-generator/SKILL.md`
+
+**Purpose**
+
+Systematically interview the user to extract all necessary product requirements for a new feature or product, and structure that information into a comprehensive Markdown Product Requirements Document (PRD). Ensures development does not begin until the scope, user stories, and technical constraints are well-defined.
+
+**Trigger Conditions**
+
+This skill activates when the user:
+- Asks to "write a PRD," "create a product requirements document," or "draft a PRD."
+- Uses the explicit slash command `/prd` or `/prd-generator`.
+- Asks to define, specify, or formalize a new feature's requirements before coding.
+
+**Pre-flight Checks**
+
+Before beginning the interview process, the agent must:
+1. Search the workspace for a PRD template (e.g., `docs/PRD_TEMPLATE.md` or `.github/PRD_TEMPLATE.md`).
+2. Check if the user has provided an existing partial PRD, notes, or an issue ticket.
+3. Check if there is an existing `docs/` folder in the project.
+
+**Workflow**
+
+1. Run an Initial Discovery phase to understand the core problem, target audience, and business/technical constraints. Use focused, interactive questions rather than an overwhelming questionnaire.
+2. Based on discovery, propose a list of "In Scope" and "Out of Scope" (Non-Goals) items, and draft 3-5 core User Stories with basic Acceptance Criteria.
+3. Ask the user to confirm the scope and user stories before proceeding. Do not write the full document yet.
+4. Once confirmed, generate the full PRD according to the required output format.
+5. Save the final PRD to the location the user named, or otherwise to `docs/PRD-[feature-name].md` (creating `docs/` if it does not exist), and present the path to the user.
+
+**Rules**
+
+- Do not hallucinate requirements or skip the interview phase.
+- Group questions logically; do not dump all questions at once.
+- The final PRD MUST be saved as a `.md` file. Do not print the entire PRD in the chat response.
+- If a section is not applicable, include the heading and write "N/A".
+
+**Output Format**
+
+A Markdown file containing exactly 9 sections (unless overridden by a repository template): Title & Meta Information, Overview & Problem Statement, Target Audience & Personas, Goals & Non-Goals, User Stories & Functional Requirements, User Experience (UX) & Design, Technical Considerations, Dependencies/Risks & Mitigations, and Success Metrics.
+
+---
+
+### 6. project-explanation
 
 **Directory**: `skills/project-explanation/`
 **Instruction file**: `skills/project-explanation/SKILL.md`
@@ -212,6 +256,11 @@ This skill activates when the user:
 - Asks "what does this project do," "what features exist," or "help me get up to speed on this repo."
 - Wants an onboarding overview before deciding what to build or improve next.
 
+**Interaction Mode**
+
+- Interactive (default): the agent pauses at the two decision points and waits for the user's answer.
+- Non-interactive: used when the user's request or the skill arguments ask for no questions (e.g., "no questions," "make no questions," "don't ask"). The agent asks nothing, ends Phase 1 with a Recommended Next Step section naming one or two features or improvements worth developing first (each with a one-sentence evidence-based reason), and stops. Phases 2 and 3 run only if the user asks in a later message.
+
 **Pre-flight Checks**
 
 Before exploring the project, the agent must:
@@ -223,7 +272,7 @@ Before exploring the project, the agent must:
 
 **Workflow**
 
-This skill uses a three-phase interactive workflow. The agent must wait for the user's explicit response at each decision point before continuing.
+This skill uses a three-phase workflow. In interactive mode, the agent must wait for the user's explicit response at each decision point before continuing. In non-interactive mode, only Phase 1 runs.
 
 Phase 1 (Steps 1-4): Identify the tech stack (languages, frameworks, databases, key integrations), determine the architectural pattern (SPA, monolith, monorepo, microservices), map the features by reading key source files and entry points, and present the full structured summary to the user. End Phase 1 by asking: "From the features above, which one would you like to explore further?" Do not proceed until the user responds.
 
@@ -233,18 +282,19 @@ Phase 3 (Step 6): If the user says yes, provide a concrete implementation plan l
 
 **Rules**
 
-- Always wait for the user's explicit response at the two interactive decision points before continuing to the next phase.
+- In interactive mode, always wait for the user's explicit response at the two decision points before continuing to the next phase.
+- In non-interactive mode, never ask a question or wait for input; end Phase 1 with the Recommended Next Step section.
 - Do not modify any source file during this skill. It is read-only with respect to the codebase.
 - Do not fabricate features or behaviors not evidenced by the code or documentation.
 - Use plain, accessible language. Assume the user may be new to this codebase.
 
 **Output Format**
 
-Phase 1: A structured inline summary followed by the feature-selection question. Phase 2: A detailed inline feature breakdown followed by the development confirmation question. Phase 3 (if yes): An inline implementation plan with specific files, steps, complexity estimate, and identified risks.
+Phase 1: A structured inline summary followed by the feature-selection question (or, in non-interactive mode, the Recommended Next Step section). Phase 2: A detailed inline feature breakdown followed by the development confirmation question. Phase 3 (if yes): An inline implementation plan with specific files, steps, complexity estimate, and identified risks.
 
 ---
 
-### 6. push-to-origin
+### 7. push-to-origin
 
 **Directory**: `skills/push-to-origin/`
 **Instruction file**: `skills/push-to-origin/SKILL.md`
@@ -297,47 +347,3 @@ The following must never be staged or committed, regardless of `git status`. Uns
 **Output Format**
 
 At the end of the workflow, report: Staged Files (the list of files included in the commit), Commit (the short hash and approved message), Push Result (success confirmation with remote URL and branch, or the exact error if failed), and Excluded Files (any files unstaged due to the Exclusion List with the reason for each exclusion).
-
----
-
-### 7. prd-generator
-
-**Directory**: `skills/prd-generator/`
-**Instruction file**: `skills/prd-generator/SKILL.md`
-
-**Purpose**
-
-Systematically interview the user to extract all necessary product requirements for a new feature or product, and structure that information into a comprehensive Markdown Product Requirements Document (PRD). Ensures development does not begin until the scope, user stories, and technical constraints are well-defined.
-
-**Trigger Conditions**
-
-This skill activates when the user:
-- Asks to "write a PRD," "create a product requirements document," or "draft a PRD."
-- Uses the explicit slash command `/prd` or `/prd-generator`.
-- Asks to define, specify, or formalize a new feature's requirements before coding.
-
-**Pre-flight Checks**
-
-Before beginning the interview process, the agent must:
-1. Search the workspace for a PRD template (e.g., `docs/PRD_TEMPLATE.md` or `.github/PRD_TEMPLATE.md`).
-2. Check if the user has provided an existing partial PRD, notes, or an issue ticket.
-3. Check if there is an existing `docs/` folder in the project.
-
-**Workflow**
-
-1. Run an Initial Discovery phase to understand the core problem, target audience, and business/technical constraints. Use focused, interactive questions rather than an overwhelming questionnaire.
-2. Based on discovery, propose a list of "In Scope" and "Out of Scope" (Non-Goals) items, and draft 3-5 core User Stories with basic Acceptance Criteria.
-3. Ask the user to confirm the scope and user stories before proceeding. Do not write the full document yet.
-4. Once confirmed, generate the full PRD according to the required output format.
-5. Save the final PRD to a Markdown file in the project's documentation folder (e.g., `docs/PRD-[feature-name].md`) and present a link to the user.
-
-**Rules**
-
-- Do not hallucinate requirements or skip the interview phase.
-- Group questions logically; do not dump all questions at once.
-- The final PRD MUST be saved as a `.md` file. Do not print the entire PRD in the chat response.
-- If a section is not applicable, include the heading and write "N/A".
-
-**Output Format**
-
-A Markdown file containing exactly 9 sections (unless overridden by a repository template): Title & Meta Information, Overview & Problem Statement, Target Audience & Personas, Goals & Non-Goals, User Stories & Functional Requirements, User Experience (UX) & Design, Technical Considerations, Dependencies/Risks & Mitigations, and Success Metrics.

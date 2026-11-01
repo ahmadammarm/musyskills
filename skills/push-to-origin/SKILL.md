@@ -1,6 +1,6 @@
 ---
 name: push-to-origin
-description: Reviews uncommitted changes, excludes files that shouldn't be committed, creates a well-formed commit, and pushes to origin (in its branch, no other branch). Delegates git operations to the git-agent. ALWAYS confirms with the user before pushing — never pushes silently. Triggers on any request to commit, save, check in, or push changes — e.g. "commit my changes", "check this in", "save to git", "push to origin" — even without the word "push" or a commit message.
+description: Reviews uncommitted changes, excludes files that shouldn't be committed, creates a well-formed commit, and pushes to origin (in its branch, no other branch). Runs git commands directly; no helper agent is required. ALWAYS confirms with the user before pushing — never pushes silently. Triggers on any request to commit, save, check in, or push changes — e.g. "commit my changes", "check this in", "save to git", "push to origin" — even without the word "push" or a commit message.
 argument-hint: <commit-message>
 ---
 

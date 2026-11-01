@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `project-explanation`: non-interactive mode. When the user asks for no questions, the skill ends the summary with a Recommended Next Step section and stops instead of waiting for input.
+
+### Fixed
+- `push-to-origin`: removed the reference to a `git-agent` that this repository does not ship; the skill runs git commands directly.
+- `prd-generator`: replaced the ambiguous "create `docs/` or ask the user" instruction with a deterministic rule (use the user's location if given, otherwise create `docs/`).
+- `project-explanation`: Output Format said "two phases" but listed three.
+- `docs/skills.md`: skills are now listed in alphabetical order (`prd-generator` was out of place at the end).
+
 ## [v1.1.0] - 2026-08-21
 
 ### Added

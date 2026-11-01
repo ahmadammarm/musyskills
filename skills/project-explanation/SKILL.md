@@ -1,6 +1,6 @@
 ---
 name: project-explanation
-description: Understand a project comprehensively and explain it clearly to the user. Then ask which feature the user wants to develop, explain that feature in depth, and confirm whether the user wants to proceed with development. Trigger when the user asks to understand, explore, summarize, or explain a codebase/project, or asks "what features does this project have" or "help me understand this project".
+description: Understand a project comprehensively and explain it clearly to the user. Then (unless the user asks for no questions) ask which feature the user wants to develop, explain that feature in depth, and confirm whether the user wants to proceed with development. Trigger when the user asks to understand, explore, summarize, or explain a codebase/project, or asks "what features does this project have" or "help me understand this project".
 argument-hint: <project-name-or-feature>
 ---
 
@@ -17,6 +17,15 @@ Activate this skill when the user:
 - Asks to "understand this project," "explain this codebase," "give me a project overview," or similar.
 - Asks "what does this project do," "what features exist," or "help me get up to speed on this repo."
 - Wants an onboarding overview before deciding what to build or improve next.
+
+## Interaction Mode
+
+Determine the mode before starting:
+
+- **Interactive (default)**: Pause at the two decision points (feature selection and development confirmation) and wait for the user's answer.
+- **Non-interactive**: Use this mode when the user's request or the skill arguments ask for no questions (e.g., "no questions," "make no questions," "don't ask," "just summarize"). Do not ask the user anything and do not wait for input. Instead:
+  - End Step 4 with a **Recommended Next Step** section in place of the feature-selection question: name one or two features or improvements worth developing first and give a one-sentence reason for each, based on evidence from the code.
+  - Stop after Step 4. Do not perform the deep-dive or produce an implementation plan unless the user asks for one in a later message.
 
 ## Pre-flight Checks
 
@@ -72,6 +81,8 @@ After presenting the summary, ask the user:
 
 Wait for the user's response before continuing. Do not proceed to the next step without a selection.
 
+In non-interactive mode, replace the question with the **Recommended Next Step** section described under Interaction Mode, then stop.
+
 ### Step 5: Deep-Dive on the Selected Feature
 Once the user selects a feature:
 - Read all files directly related to that feature (routes, controllers, services, models, components, tests).
@@ -96,7 +107,8 @@ Wait for the user's response before continuing.
 
 ## Rules
 
-- Always wait for the user's explicit response at the two interactive decision points (feature selection and development confirmation) before continuing.
+- In interactive mode, always wait for the user's explicit response at the two decision points (feature selection and development confirmation) before continuing.
+- In non-interactive mode, never ask a question or wait for input; end with the Recommended Next Step section after Step 4.
 - Use plain, accessible language. Assume the user may be new to this codebase; provide enough context to be useful without overwhelming them with jargon.
 - Do not modify any source files during this skill. It is read-only with respect to the codebase.
 - If the repository has no README and minimal configuration, state this honestly and note that the exploration will rely on reading source files directly.
@@ -104,9 +116,9 @@ Wait for the user's response before continuing.
 
 ## Output Format
 
-Deliver the output in two phases:
+Deliver the output in up to three phases:
 
-**Phase 1 (Steps 1-4)**: A structured project summary presented inline, followed by the interactive feature-selection question.
+**Phase 1 (Steps 1-4)**: A structured project summary presented inline, followed by the interactive feature-selection question. In non-interactive mode, the summary is followed by the Recommended Next Step section and the output ends here.
 
 **Phase 2 (Step 5)**: A detailed feature breakdown presented inline, including files, data flow, dependencies, and improvement opportunities, followed by the development confirmation question.
 

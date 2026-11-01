@@ -45,7 +45,8 @@ Before beginning the interview process, the agent must:
 
 ### Step 4: Save and Present
 - Write the final PRD to a Markdown file in the project's documentation folder (e.g., `docs/PRD-[feature-name].md`).
-- If a `docs/` folder does not exist, create it or ask the user where they would prefer the file to be saved.
+- If the user named a location, save the file there.
+- Otherwise, if a `docs/` folder does not exist, create it and save the file there. Tell the user the path so they can move it if they prefer another location.
 - Inform the user that the file has been created, provide a direct link to it, and ask if any sections need further refinement.
 
 ## Rules
