@@ -84,7 +84,9 @@ function initDotField(signal: AbortSignal, reduced: boolean) {
 
   const resize = () => {
     const rect = host.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // A still field on a touch screen does not need a high-density bitmap;
+    // 1x keeps the layer a quarter of the size.
+    const dpr = reduced ? 1 : Math.min(window.devicePixelRatio || 1, 2);
     w = rect.width;
     h = rect.height;
     canvas.width = Math.round(w * dpr);

@@ -60,7 +60,6 @@
     background: var(--bg);
     color: var(--fg);
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
   }
   body {
     @apply font-sans text-[15px] leading-relaxed;
@@ -286,8 +285,14 @@
 }
 
 /* Touch screens: lighter motion. The heading fades up without a blur filter
-   (expensive on phone GPUs), and revealed items appear together. */
+   (expensive on phone GPUs), and revealed items appear together. The sticky
+   header gets a solid background: a backdrop blur makes the GPU re-blur the
+   content under it on every scroll frame. */
 @media (hover: none), (pointer: coarse) {
+  .site-header {
+    background-color: var(--bg);
+    backdrop-filter: none;
+  }
   .blur-word {
     filter: none;
     animation-name: rise-in;
