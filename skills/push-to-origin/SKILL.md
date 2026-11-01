@@ -36,9 +36,12 @@ The following files and patterns must never be staged or committed, regardless o
 - `pr-description.md`
 - Any file matching patterns defined in `.gitignore`, `.geminiignore`, or `.antigravityignore`.
 - Any file path under `.agents/` or `.gemini/` that contains internal skill or configuration files.
+- Personal, machine-local agent files: `CLAUDE.local.md`, `.claude/settings.local.json`, and any other `*.local.*` file inside an agent configuration folder (`.claude/`, `.cursor/`, `.gemini/`, `.agents/`).
 - Any file containing secrets, credentials, or API keys (check for patterns like `*_SECRET`, `*_KEY`, `*_TOKEN` in file names or content, and flag them).
 
 If a file on the exclusion list is staged, unstage it immediately and notify the user before continuing.
+
+Shared agent files are not excluded. `CLAUDE.md`, `AGENTS.md`, `.claude/skills/`, `.claude/settings.json`, and `.cursor/rules/` are meant to be shared with the team, so commit them normally if they are part of the change, unless a rule above (such as a secret in the content) applies.
 
 ## Workflow
 

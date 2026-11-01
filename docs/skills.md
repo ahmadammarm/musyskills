@@ -208,7 +208,7 @@ Systematically interview the user to extract all necessary product requirements 
 
 This skill activates when the user:
 - Asks to "write a PRD," "create a product requirements document," or "draft a PRD."
-- Uses the explicit slash command `/prd` or `/prd-generator`.
+- Uses the explicit slash command `/prd-generator`.
 - Asks to define, specify, or formalize a new feature's requirements before coding.
 
 **Pre-flight Checks**
@@ -324,7 +324,10 @@ The following must never be staged or committed, regardless of `git status`. Uns
 - `.geminiignore`, `.antigravityignore`, `GEMINI.md`, `pr-description.md`.
 - Any file matching patterns defined in `.gitignore`, `.geminiignore`, or `.antigravityignore`.
 - Any file under `.agents/` or `.gemini/` containing internal skill or configuration data.
+- Personal, machine-local agent files: `CLAUDE.local.md`, `.claude/settings.local.json`, and any other `*.local.*` file inside `.claude/`, `.cursor/`, `.gemini/`, or `.agents/`.
 - Any file containing secrets or credentials (check for patterns like `*_SECRET`, `*_KEY`, `*_TOKEN` in file names or content).
+
+Shared agent files (`CLAUDE.md`, `AGENTS.md`, `.claude/skills/`, `.claude/settings.json`, `.cursor/rules/`) are not excluded and are committed normally when they are part of the change.
 
 **Workflow**
 

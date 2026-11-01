@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.2.1] - 2026-11-01
+
+### Added
+- MIT `LICENSE`.
+- `scripts/validate.mjs`: checks skill frontmatter, required sections, slash commands, agent references, and that `skills/`, `README.md`, and `docs/skills.md` list the same skills.
+- CI workflow (`.github/workflows/ci.yml`) that runs the validator on every push to `main` and every pull request.
+- `templates/SKILL.md` and `CONTRIBUTING.md` for contributors.
+
+### Fixed
+- `prd-generator`: removed the `/prd` alias; the slash command is `/prd-generator`, matching the folder name.
+- `push-to-origin`: the exclusion list now covers machine-local files from other agents (`CLAUDE.local.md`, `.claude/settings.local.json`, `*.local.*` in agent folders) and states that shared files such as `CLAUDE.md` and `AGENTS.md` are committed normally.
+
 ## [v1.2.0] - 2026-11-01
 
 ### Added

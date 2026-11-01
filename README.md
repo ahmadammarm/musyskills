@@ -41,4 +41,8 @@ Claude Code natively supports skills placed in a `.claude/skills` directory. The
 
 ## Contributing
 
-Contributions are welcome. If you want to add a new skill or improve an existing one, please fork the repository, add it to the `skills/` directory, and ensure that new skills are written in clear, unambiguous language, avoid emojis, and follow the formatting conventions of the existing skills.
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the skill format, the template in [`templates/SKILL.md`](templates/SKILL.md), and how to run the validator before opening a pull request.
+
+## License
+
+Musyskills is released under the [MIT License](LICENSE).

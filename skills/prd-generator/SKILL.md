@@ -14,7 +14,7 @@ To systematically interview the user to extract all necessary product requiremen
 
 Activate this skill when the user:
 - Asks to "write a PRD," "create a product requirements document," or "draft a PRD."
-- Uses the explicit slash command `/prd` or `/prd-generator`.
+- Uses the explicit slash command `/prd-generator`.
 - Asks to define, specify, or formalize a new feature's requirements before coding.
 
 ## Pre-flight Checks
