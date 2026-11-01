@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.0.4] - 2026-11-01
+
+### Fixed
+- Website scrolling on Android phones. The sticky header uses a solid background instead of a backdrop blur on touch screens, so the GPU no longer re-blurs the page under it on every scroll frame. This affects every page.
+- The still dot field behind the home page heading is drawn at 1x on touch screens, a quarter of the memory it used before.
+- Text no longer uses `text-rendering: optimizeLegibility`, which slows down rendering of long pages on Android.
+
 ## [v2.0.3] - 2026-11-01
 
 ### Fixed
