@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.0.2] - 2026-11-01
+
 ### Added
 - Website docs cover the whole journey: requirements, a four-step quick start, a first-install section (checking Node.js, the first `npx` run, and the optional global install), choosing a tool, project or global installs, using a skill, checking, updating, sharing, and removing skills, the Claude Code plugin, manual install, troubleshooting, and a command reference. Output examples come from the real CLI.
 
