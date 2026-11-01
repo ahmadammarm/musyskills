@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.0.0] - 2026-11-01
+
 ### Added
 - Website (`web/`, Astro and Tailwind CSS v4) with an interactive install terminal, a page per skill generated from `SKILL.md`, docs, and the changelog. Navigation runs client-side without full reloads. Deployed to GitHub Pages by `.github/workflows/pages.yml`.
 - `.gitattributes` and `.editorconfig` that keep every text file on LF line endings.
