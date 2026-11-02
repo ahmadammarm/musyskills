@@ -263,7 +263,8 @@
   /* Scroll shadows: a soft edge appears only on the side where more columns
      are hidden. The "local" layers cover the shadows once you reach an end. */
   .doc .table-scroll,
-  .doc > table {
+  .doc > table,
+  .output-scroll {
     background:
       linear-gradient(to right, var(--bg) 40%, transparent) left / 28px 100% no-repeat local,
       linear-gradient(to left, var(--bg) 40%, transparent) right / 28px 100% no-repeat local,
@@ -273,6 +274,18 @@
   .doc .table-scroll code {
     overflow-wrap: normal;
     white-space: nowrap;
+  }
+
+  /* A scrollbar that stays out of sight until the pointer is over the box or
+     keyboard focus is inside it. The gutter is reserved so nothing shifts. */
+  .scroll-on-hover {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    scrollbar-gutter: stable;
+  }
+  .scroll-on-hover:hover,
+  .scroll-on-hover:focus-within {
+    scrollbar-color: var(--line-strong) transparent;
   }
 }
 

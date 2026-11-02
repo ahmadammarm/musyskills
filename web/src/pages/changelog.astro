@@ -27,6 +27,16 @@ const { Content } = await render(entry);
   .changelog :global(h1 + p + p) {
     display: none;
   }
+  /* [Unreleased] holds changes that are not out yet; the page lists releases
+     only. Hide that heading and everything up to the next release heading. */
+  .changelog :global(#unreleased),
+  .changelog :global(#unreleased ~ *) {
+    display: none;
+  }
+  .changelog :global(#unreleased ~ h2),
+  .changelog :global(#unreleased ~ h2 ~ *) {
+    display: revert-layer;
+  }
   .changelog :global(h2) {
     font-family: var(--font-mono);
     font-size: 17px;

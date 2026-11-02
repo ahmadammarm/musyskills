@@ -1,5 +1,6 @@
 ---
 // What a command prints. Not copyable on purpose: it is an example, not input.
+// Lines keep their columns, so a long one scrolls sideways inside the box.
 interface Props {
   label?: string;
   class?: string;
@@ -11,5 +12,5 @@ const { label = 'Output', class: className = '' } = Astro.props;
   <figcaption class="border-b border-line bg-subtle px-3.5 py-1.5 font-mono text-[11.5px] tracking-[0.06em] text-muted uppercase">
     {label}
   </figcaption>
-  <pre class="px-3.5 py-3 font-mono text-[12.5px] leading-[22px] whitespace-pre-wrap text-fg [overflow-wrap:anywhere]"><slot /></pre>
+  <pre class="output-scroll overflow-x-auto overscroll-x-contain px-3.5 py-3 font-mono text-[12.5px] leading-[22px] whitespace-pre text-fg"><slot /></pre>
 </figure>

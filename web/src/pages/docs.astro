@@ -21,6 +21,7 @@ const toc = [
       { id: 'install-with-the-cli', title: 'Install skills with the CLI' },
       { id: 'choose-a-tool', title: 'Choose a tool' },
       { id: 'project-or-global', title: 'Project or global' },
+      { id: 'claude-profiles', title: 'Claude Code profiles' },
       { id: 'where-skills-go', title: 'Where skills go' },
     ],
   },
@@ -267,6 +268,39 @@ ${app}/.claude/skills (claude)
             with <code>update</code>, <code>remove</code>, and <code>doctor</code> to manage global skills.
           </p>
 
+          <h2 id="claude-profiles">Claude Code profiles</h2>
+          <p>
+            Some people keep separate Claude Code setups, for example <code>~/.claude-work</code> and
+            <code>~/.claude-personal</code> next to the default <code>~/.claude</code>, and start each one with
+            <code>CLAUDE_CONFIG_DIR</code>. A global Claude install asks whether you have more than the default. Answer
+            <code>n</code> to use <code>~/.claude</code>, or <code>y</code> to pick profiles: choose them by number, or type
+            the part after <code>claude-</code>. Separate several with commas.
+          </p>
+        </div>
+        <Output class="mt-5">{`$ npx musyskills add --all --global --tool claude
+Do you use more than the default Claude (~/.claude)? (y/N) y
+Claude profiles in your home folder:
+  1) claude           ~/.claude
+  2) claude-personal  ~/.claude-personal
+  3) claude-work      ~/.claude-work
+Pick numbers, or type the name after "claude-". Separate several with commas.
+claude-work,personal`}</Output>
+        <div class="doc">
+          <p>
+            That installs into <code>~/.claude-work/skills/</code> and <code>~/.claude-personal/skills/</code>. To skip the
+            question, in a script for example, pass the profiles with <code>--profile</code>. Use <code>default</code> for
+            <code>~/.claude</code>:
+          </p>
+        </div>
+        <Command class="mt-5" lines={['npx musyskills add --all --global --profile work,personal']} />
+        <div class="doc">
+          <p>
+            Without a terminal and without <code>--profile</code>, skills go into <code>~/.claude</code>. When
+            <code>CLAUDE_CONFIG_DIR</code> is set, for example inside a running profile, that folder is used and nothing is
+            asked. <code>update --global</code> and <code>doctor --global</code> cover every profile they find. Project
+            installs are not affected: they always go into the project's <code>.claude/skills/</code>.
+          </p>
+
           <h2 id="where-skills-go">Where skills go</h2>
           <div class="table-scroll"><table>
             <thead><tr><th>Tool</th><th>Project</th><th>Global</th></tr></thead>
@@ -487,6 +521,7 @@ ${app}/.claude/skills (claude)
             <tbody>
               <tr><td><code>-t, --tool &lt;name&gt;</code></td><td><code>claude</code>, <code>codex</code>, <code>cursor</code>, or <code>antigravity</code>. Repeat or comma-separate for several.</td></tr>
               <tr><td><code>-g, --global</code></td><td>Use your user folder instead of the current project.</td></tr>
+              <tr><td><code>-p, --profile &lt;name&gt;</code></td><td>With <code>--global</code>, the Claude Code profile: <code>work</code> for <code>~/.claude-work</code>, <code>default</code> for <code>~/.claude</code>. Repeat or comma-separate for several.</td></tr>
               <tr><td><code>-a, --all</code></td><td>With <code>add</code>, every skill.</td></tr>
               <tr><td><code>-f, --force</code></td><td>Overwrite or remove skills you edited or that musyskills did not install.</td></tr>
               <tr><td><code>-h, --help</code></td><td>Show help.</td></tr>
@@ -501,7 +536,7 @@ ${app}/.claude/skills (claude)
       </article>
 
       <aside class="hidden lg:block">
-        <nav aria-label="On this page" class="sticky top-24 max-h-[calc(100dvh-8rem)] overflow-y-auto pb-6">
+        <nav aria-label="On this page" class="scroll-on-hover sticky top-24 max-h-[calc(100dvh-8rem)] overflow-y-auto pb-6">
           {
             toc.map((section, i) => (
               <div class:list={[i > 0 && 'mt-5']}>
