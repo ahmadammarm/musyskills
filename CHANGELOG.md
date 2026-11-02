@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.1.0] - 2026-11-02
+
+### Added
+- CLI: Claude Code profiles. A global Claude install asks "Do you use more than the default Claude (~/.claude)?". Answer `y` to pick profiles such as `~/.claude-work` and `~/.claude-personal` by number, or type the name after `claude-`. Several can be chosen at once, separated by commas.
+- CLI: `--profile <name>` (`-p`) chooses Claude Code profiles without asking, for example `--profile work,personal`. Use `default` for `~/.claude`. Without a terminal and without the flag, skills go into `~/.claude`, and `CLAUDE_CONFIG_DIR` is used when it is set.
+- CLI: `update --global` and `doctor --global` cover every Claude profile, and a home folder with only `~/.claude-*` profiles counts as Claude Code.
+- Website docs: a "Claude Code profiles" section and the `--profile` option in the command reference.
+
+### Changed
+- Website: command output examples on the docs page keep their columns and scroll sideways inside their box when a line is too long, with a shadow on the side that has more.
+- Website: the docs page's "On this page" navigation shows its scrollbar only while the pointer is over it.
+- Website: the changelog page lists releases only and hides the `[Unreleased]` section.
+
 ## [v2.0.4] - 2026-11-01
 
 ### Fixed

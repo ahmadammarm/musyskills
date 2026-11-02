@@ -1,6 +1,6 @@
 {
   "name": "musyskills",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "description": "Install Musyskills AI agent skills into Claude Code, Codex, Cursor, and Antigravity.",
   "type": "module",
   "bin": {
