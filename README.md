@@ -38,7 +38,7 @@ npx musyskills add --all                  # every skill
 npx musyskills update                     # update what you installed
 ```
 
-The CLI detects which tools the project uses and installs into each of their folders. Use `--tool claude|codex|cursor|antigravity` to choose, and `--global` to install for your user instead of the project. It never overwrites a skill you edited unless you pass `--force`. See the [docs](https://ahmadammarm.github.io/musyskills/docs/) for every command.
+The CLI detects which tools the project uses and installs into each of their folders. Use `--tool claude|codex|cursor|antigravity` to choose, and `--global` to install for your user instead of the project. If you keep several Claude Code profiles (such as `~/.claude-work`), a global install asks which ones to use, or you can pass `--profile work`. It never overwrites a skill you edited unless you pass `--force`. See the [docs](https://ahmadammarm.github.io/musyskills/docs/) for every command.
 
 ### Claude Code plugin
 

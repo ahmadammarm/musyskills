@@ -22,6 +22,7 @@ npx musyskills add --all
 
 - `--tool <name>` (`-t`): `claude`, `codex`, `cursor`, or `antigravity`. Repeat it, or separate with commas, for several tools. Without it, musyskills detects tools from the project (`.claude/`, `AGENTS.md`, `.cursor/`, `.gemini/`, and similar). If nothing is found, it asks in an interactive terminal, and otherwise uses `claude`.
 - `--global` (`-g`): install for your user instead of the current project.
+- `--profile <name>` (`-p`): with `--global`, the Claude Code profile to install into: `work` for `~/.claude-work`, `default` for `~/.claude`. Repeat it, or separate with commas, for several. See [Claude Code profiles](#claude-code-profiles).
 - `--force` (`-f`): overwrite or remove a skill that you edited, or that musyskills did not install.
 
 ## Where skills go
@@ -32,6 +33,22 @@ npx musyskills add --all
 | codex | `.agents/skills/` | `~/.agents/skills/` |
 | cursor | `.cursor/skills/` | `~/.cursor/skills/` |
 | antigravity | `.agents/skills/` | `~/.gemini/config/skills/` |
+
+## Claude Code profiles
+
+If you keep several Claude Code setups, such as `~/.claude-work` and `~/.claude-personal` started with `CLAUDE_CONFIG_DIR`, a global Claude install asks:
+
+```
+Do you use more than the default Claude (~/.claude)? (y/N) y
+Claude profiles in your home folder:
+  1) claude           ~/.claude
+  2) claude-personal  ~/.claude-personal
+  3) claude-work      ~/.claude-work
+Pick numbers, or type the name after "claude-". Separate several with commas.
+claude-work,personal
+```
+
+Answer `n` to use `~/.claude`. In scripts, pass `--profile work,personal` instead. Without a terminal and without `--profile`, skills go into `~/.claude`. When `CLAUDE_CONFIG_DIR` is set, that folder is used without asking. `update --global` and `doctor --global` cover every profile. Project installs are not affected.
 
 musyskills records what it installed in a `.musyskills.json` file in each skills folder. It uses that record to update or remove only its own skills, and it never overwrites a skill you changed unless you pass `--force`.
 
